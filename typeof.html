@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>typeof测试变量是否存在</title>
+	
+</head>
+<body>
+	
+	<script type="text/javascript">
+		var abc=123;
+		
+		if(typeof abc != 'undefined'){
+			console.log('abc存在')
+		}
+		
+		//if(xxc) //直接写就会报错
+		if(typeof xxc != 'undefined'){
+			console.log('xxc没有报错')
+		}
+		
+		var bbc;
+		console.log(typeof bbc) //没有初始化的变量就是undefined
+	</script>
+</body>
+</html>
