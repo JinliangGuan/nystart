@@ -12,11 +12,19 @@
 <p>数组元素总和: <span id="demo"></span></p>
 
 <script>
-var numbers = [65,29,12,'abc',98,70];
+var numbers = ['test',65,29,12,'abc',98,[],70];
 
 function getSum(total, num,index,arr) {
 	console.log(total,num,index,arr)
-    return total + num;
+	if(typeof total != 'number'){
+		console.log('不是数字')
+		return num;
+	}
+    if(typeof num != 'number'){
+    	console.log('不是数字')
+    	return total;
+    }
+    return total+num;
 }
 function myFunction(item) {
     document.getElementById("demo").innerHTML = numbers.reduce(getSum);
