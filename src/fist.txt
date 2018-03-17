@@ -6,5 +6,5 @@ hello!boy
 会让你想起我
 
 测试一下呗!
-mac 版上clone了
-window 上的提交不能通过了,哎，我也不知道
+mac 版上clone了，merge了，commit了。收到
+window 上的提交不能通过了,要提交后处理冲突
