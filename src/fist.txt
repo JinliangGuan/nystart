@@ -1,10 +1,10 @@
-﻿测试一下呗!
+测试一下呗!
 window 来捣乱啦
 hello!boy
 
 有没有那么一首歌
 会让你想起我
 
-测试一下呗!
-mac 版上clone了
-window 上的提交不能通过了
+测试一下mac合并后提交!
+mac 版上clone了，merge了，commit了？
+window 上的提交能不能通过了
