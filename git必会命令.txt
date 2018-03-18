@@ -1,0 +1,69 @@
+（1）cd 文件名/cd ..  进入目录/退上一层目录
+（2） || / ls  查看目录
+（3）tab补全命令
+（4）方向键  上一个命令，下一个命令 
+（5）clear 清屏幕
+（6）git clone 项目地址  把项目克隆到本地
+（7）git add . 把所有文件提交到暂存区
+（8）git commit -m '注释' 把文件提交到版本区
+     git commit -a -m '注释' 工作区直接提交到版本区
+     git commit -m '注释' --amend   补充提交，把本次提交合并上次提交
+（10）git push origin master 提交到远程仓库的master分支
+      git push origin master:master  完整写法:本地分支名/远程分支名
+      git push origin HEAD 把当前分支推送到远程的同名分支
+（11）git status 查看状态
+（12）三大区：工作区、暂存区、版本区
+
+（13）git log 查看版本号 -p 查看差异 -num查看最近num数提交
+      git reflog 查找全部(包括回滚的)版本
+（14）git diff 工作区与暂存区
+      git diff --cached 暂存区与版本区
+      git diff --master 工作区与版本区
+（15）git reset HEAD 文件名 撤销暂存区文件，工作区不变
+（16）git checkout -- 文件名 恢复文件，暂存区没有就去工作区找
+（17）git rm 文件名 删除文件（工作区和暂存区）
+      git rm -f 文件名 强制删除（如果提交到暂存区后又修改了工作区，只能强制删除）
+      git rm --cached 文件名 只删除暂存区（如果把一些系统文件不小心提交了，如.a的文件，这会很有用）
+      git rm -rf 文件夹  删除文件夹
+（18）git mv file_from file_to 移动和重命名
+      例git mv main.py src/   移动
+        git mv main.py module.py 重命名    
+（19）git checkout 版本码 文件名  回滚指定文件
+      git checkout HEAD 文件民 文件回滚到最近提交的版本
+（20）git reset --hard 版本记录 三个区回滚指定的版本（本质是当前分支指向另一个位置，并有选择恢复工作区和暂存区）
+      git reset --soft 只回退版本区
+      git reset -- mixed 默认，回退暂存区和版本区
+（21）git remote 查看远程仓库
+      git remote -v 查看远程仓库的简写和URL
+      git remote add 创建仓库名字 URL   添加一个远程仓库
+      git remote reanme old new  重命名远程仓库
+      git remote rm 仓库名  删除远程仓库
+（22）git fetch 远程主机名 分支名  把远程主机的更新拉回本地
+      取回来的更新可以用类似 origin/master 读取
+      
+（23）git pull 远程主机名 远程分支名:本地分支名    取回远程某分支的更新并合并
+     例：git pull origin erp01:master   //如果当前是master分支，可以省略:master
+         git pull origin    //如果当前分支只有一个追踪分支，origin也可以省略
+（24）git merge origin/master 把远程更新合并到当前分支
+（25）git rebase origin 合并远程分支，并把本分支的commit顶到最顶端。上游合并。
+      手动解决冲突后，git add . 然后在git rebase --continue\
+      git rebase --abort 中止合并，恢复到合并前
+（26）git branch 查看分支
+      git branch 分支名 新建分支
+      git checkout 分支名 切换分支
+      git chekcout -b 分支名 新建分支并切换到该分支
+      git checkout -b 分支名 origin/master 把取回的更新建立一个分支
+      git merge 分支名 合并分支
+      git branch -d 分支名  删除分支
+      git branch -D 分支名  强制删除分支
+      git push origin --delete 分支名 删除远程分支
+      git push origin :master 删除远程分支（用空去替换了一个远程分支）
+      git branch -r 查看远程追踪的分支
+      git branch -a 查看本地和远程分支
+      git branch -m old new 重命名分支
+
+
+
+
+pwd 查看绝对路径
+mkdir 文件夹名 新建一个文件夹
