@@ -20,7 +20,8 @@
       git diff --cached 暂存区与版本区
       git diff --master 工作区与版本区
 （15）git reset HEAD 文件名 撤销暂存区文件，工作区不变
-（16）git checkout -- 文件名 恢复文件，暂存区没有就去工作区找
+（16）git checkout -- 文件名 恢复文件，暂存区没有就去版本区找
+      git checkout HEAD 文件名  从版本区恢复文件
 （17）git rm 文件名 删除文件（工作区和暂存区）
       git rm -f 文件名 强制删除（如果提交到暂存区后又修改了工作区，只能强制删除）
       git rm --cached 文件名 只删除暂存区（如果把一些系统文件不小心提交了，如.a的文件，这会很有用）
@@ -61,6 +62,7 @@
       git branch -r 查看远程追踪的分支
       git branch -a 查看本地和远程分支
       git branch -m old new 重命名分支
+      
 
 
 
