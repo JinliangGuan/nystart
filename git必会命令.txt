@@ -30,14 +30,14 @@
       例git mv main.py src/   移动
         git mv main.py module.py 重命名    
 （19）git checkout 版本码 文件名  回滚指定文件
-      git checkout HEAD 文件民 文件回滚到最近提交的版本
+      git checkout HEAD 文件名 文件回滚到最近提交的版本
 （20）git reset --hard 版本记录 三个区回滚指定的版本（本质是当前分支指向另一个位置，并有选择恢复工作区和暂存区）
       git reset --soft 只回退版本区
       git reset -- mixed 默认，回退暂存区和版本区
 （21）git remote 查看远程仓库
       git remote -v 查看远程仓库的简写和URL
       git remote add 创建仓库名字 URL   添加一个远程仓库
-      git remote reanme old new  重命名远程仓库
+      git remote rename old new  重命名远程仓库
       git remote rm 仓库名  删除远程仓库
 （22）git fetch 远程主机名 分支名  把远程主机的更新拉回本地
       取回来的更新可以用类似 origin/master 读取

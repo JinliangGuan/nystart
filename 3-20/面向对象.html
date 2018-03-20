@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	<script>
+		function teacher(name,age){
+			var name = name;
+			var age = age;
+			return{
+				name,age
+			}
+		}
+		var t1 = teacher('guan','24');
+		console.log(t1)
+
+		// var obj = {
+		// 	fn:function(){
+		// 		alert(this)
+		// 	}
+		// }
+		// obj.fn()
+
+		var num = 10;
+		num++;
+		var arr = [1,2,3,4];
+		arr.num = 10;
+		arr.num ++;
+		console.log(arr.num)
+		
+		var str = '';
+		str.num = 10;
+		str.num++;
+		console.log(str.num)
+		
+		
+		
+		function teacher2(name,age){
+			var obj = {
+				name,
+				age,
+				say(){
+					alert('我的名字是'+this.name)
+				}
+			}
+			return obj;
+		}
+		
+		var t2 = teacher2('guan','24');
+		t2.say();
+		
+		function teacher3(name,age){
+			var obj  = {};
+			obj.name = name;
+			obj.age = age;
+			obj.say = function(){
+				alert('我的名字是'+this.name)
+			}
+			return obj;
+		}
+		var t3 = teacher3('陈',35);
+		t3.say()
+		
+		function teacher4(name,age){
+			this.name = name;
+			this.age = age;
+			this.say = function(){
+				alert('我的名字叫做'+this.name)
+			}
+			return this;
+		}
+		var t4 = new teacher4('倪',30);
+		t4.say()
+		console.log(t4)
+		
+
+	</script>
+	</body>
+</html>
