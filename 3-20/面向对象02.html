@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	<script>
+		// function fn(){
+		// 	this.name = 'chen';
+		// 	console.log(this)
+		// }
+		
+		// var f = new fn();
+		// console.log(f)
+
+		//console.log(typeof new Date)  //结果是日期，看起来像字符串，实际是一个object;
+		
+		function fn(){
+			this.name = 'chen';
+			//return 1234;   //简单类型，仍返回这个对象
+			//return [1,2,3,4];  //返回了数组
+			function fn1(){
+				alert('我是漂亮的对象')
+			}
+			return fn1   //返回了函数对象
+		}
+		
+		var f = new fn;
+		console.log(f)
+
+
+		/* function Date(){
+			this.a = 123;
+		} */   //可以覆盖系统内置对象？？
+
+		// console.log(new Date)
+
+        function Person(name,age){
+			this.name = name;
+			this.age = age;
+			this.say = function(){
+				alert(this.name)
+			}
+		}
+
+		var t = new Person('陈斌',35)
+		var t1 = new Person('袁丽斯',28)
+
+		console.log(t == t1)
+
+
+		t.say();
+		t1.say();
+		var arr = [];
+		var arr2 = [];
+		console.log(arr.push == arr2.push) //arr != arr2，但arr.push却相等
+
+	</script>
+	</body>
+</html>

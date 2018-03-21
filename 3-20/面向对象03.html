@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	<script>
+		
+       function Fn(name){
+		   this.name = name;
+	   }
+	   Fn.run = function(){
+		   alert('我说'+this.name)
+	   }
+	   Fn.prototype.say = function(){
+		   alert('我是'+this.name)
+	   }
+
+	   var f1 = new Fn('guan');
+	   var f2 = new Fn('zhang');
+	   f1.say();
+	   f2.say();
+	   console.log(f1.say === f2.say)
+	   console.dir(f1)
+	   //f1.run()  //并没有run，因为run是在Fn函数上的，没有返回到对象上
+	   //Fn.run()
+	   
+	   Function.prototype.koukou = function(){
+		   alert('不要随便抠抠'+this.name)
+	   }
+	//    f1.koukou()
+	   console.dir(Object)
+	   
+	   console.dir(Fn)
+
+	</script>
+	</body>
+</html>
