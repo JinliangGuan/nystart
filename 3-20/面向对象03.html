@@ -9,30 +9,37 @@
 		
        function Fn(name){
 		   this.name = name;
+		   //this.say = function () { alert('Fn内部')  } //这里添加方法的优先级为2  
 	   }
-	   Fn.run = function(){
+	   Fn.run = function(){  //挂在此处的run并不能被实例化对象访问
 		   alert('我说'+this.name)
 	   }
-	   Fn.prototype.say = function(){
+	   Fn.prototype.say = function(){   //这里添加方法的优先级为3
 		   alert('我是'+this.name)
 	   }
 
 	   var f1 = new Fn('guan');
 	   var f2 = new Fn('zhang');
+	//    f1.say = function(){       //这里添加方法的优先级为1
+	// 	   alert('杰伦说'+this.name)
+	//    }
 	   f1.say();
 	   f2.say();
+	//    f1.run() //报错
 	   console.log(f1.say === f2.say)
 	   console.dir(f1)
 	   //f1.run()  //并没有run，因为run是在Fn函数上的，没有返回到对象上
 	   //Fn.run()
 	   
-	   Function.prototype.koukou = function(){
+	   Object.prototype.koukou = function(){
 		   alert('不要随便抠抠'+this.name)
 	   }
-	//    f1.koukou()
-	   console.dir(Object)
+	   Function.prototype.gogo = function () { alert('加油'+this.name) }
+	//    f1.gogo()  //普通实例化对象只能找到Object原型上的这一层，如koukou。Function原型上的找不到
+	//    Object.gogo();  //Object可以访问Function原型上的方法
 	   
-	   console.dir(Fn)
+
+
 
 	</script>
 	</body>
