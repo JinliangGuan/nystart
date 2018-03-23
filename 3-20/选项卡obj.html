@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>选项卡——面向对象</title>
+    <style>
+        .active{
+            background:yellow;
+        }
+        #box div{
+            width:200px;
+            height: 200px;
+            border:1px solid #000;
+            display: none;
+        }
+        #box div.show{
+            display:block;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="button" value="按钮一" class="active" />
+        <input type="button" value="按钮二">
+        <input type="button" value="按钮三">
+        <div class="card show" style="background-color:aquamarine">第一块内容</div>
+        <div class="card" style="background-color:bisque">第二块内容</div>
+        <div class="card" style="background-color:blueviolet">第三块内容</div>
+    </div>
+
+    <script>
+        
+        function Tab() { 
+            this.box = document.getElementById('box');
+            this.btns = box.getElementsByTagName('input');
+            this.divs = box.getElementsByTagName('div');
+            this.len =  this.btns.length;
+            this.initEv();
+            
+        }
+        Tab.prototype.initEv = function(){
+            var _this = this;
+            for(var i=0;i<this.len;i++){
+                this.btns[i].index = i;
+                this.btns[i].onclick = function(){
+                    _this.change(this)
+                }
+            }
+        }
+        Tab.prototype.change = function(_thisBtn){
+            for(var i=0;i<this.len;i++){
+                this.btns[i].className = '';
+                this.divs[i].className = 'card';     
+            }
+            _thisBtn.className = 'active';
+            this.divs[_thisBtn.index].className = 'card show'    
+        }
+        
+        var f = new Tab;
+        
+
+        
+         
+    </script>
+</body>
+</html>
