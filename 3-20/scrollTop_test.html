@@ -8,7 +8,6 @@
     <style>
         body{
             margin:0;
-            
         }
         /* html{
             position: relative;
@@ -27,7 +26,7 @@
             border:10px solid skyblue;
         }
         #wrap{
-            width: 300px;
+            width: 2300px;
             height: 300px;
             margin:100px 50px;
             position:relative;
@@ -38,6 +37,7 @@
         #zu{
             /* position: relative; */
             margin:30px;
+            width: 3000px;
             border:15px solid yellow;
         }
         #haha{
@@ -48,16 +48,28 @@
         }
         #txt{
             width:200px;
-            height:400px;
+            height: 400px;
             border:5px solid yellowgreen;
-            overflow: scroll;
-            padding:15px;
+            overflow-x: auto;
+            overflow-y: scroll;            
+            padding:25px;
+            
         }
         #center{
             width:200px;
             height:200px;
             background: tomato;
             position: absolute;
+            text-align: center;
+            line-height: 200px;
+            font-size: 20px;
+            transition: 0.5s;
+        }
+        #kuai{
+            /* width:30px; */
+            height: 20px;
+            background: red;
+            border:5px solid #000;
         }
     </style>
 </head>
@@ -69,16 +81,19 @@
 
 </div>    
     
-<div>
-    <p id="txt">
-        加附件耳机agg；ag <span id="haha">好好的一个内联标签</span>饿啊逛街发射阿斯特-15舰空导弹的戴高乐号航母，其反应速度极快，能够在10秒内打出8发弹，近防炮惨遭鄙视。
 
-        阿斯特-15舰空导弹采用两级固体燃料发动机作为动力，最近可拦截1.7千米处的目标，最远拦截距离超过30千米。这意味着，“戴高乐”号航母不仅仅可以为本舰提供防御，也能为航母编队内的其他舰艇提供防空火力支援。该型导弹的最大速度可达3.5马赫，拥有极快的反应速度，配主动导引头，具备发射后不管的能力。
-        
-        一旦获取作战命令，阿斯特-15舰空导弹能以极快的速度升空并拦截目标。利用A-43垂直发射装置，阿斯特-15舰空导弹的发射速度可以达到10秒钟8发。对于很多执行末端反导的近防炮来说，拦截窗口期的射击次数为1~2次，而阿斯特-15舰空导弹的拦截次数是其至少4倍，并且拦截距离更远，命中精度更高。
-    </p>
-</div>    
-<div id="center"></div>    
+<div id="txt">
+        <div id="kuai"></div>
+    加附件耳机agg；ag <span id="haha">好好的一个内联标签</span>饿啊逛街发射阿斯特-15舰空导弹的戴高乐号航母，其反应速度极快，能够在10秒内打出8发弹，近防炮惨遭鄙视。
+
+    阿斯特-15舰空导弹采用两级固体燃料发动机作为动力，最近可拦截1.7千米处的目标，最远拦截距离超过30千米。这意味着，“戴高乐”号航母不仅仅可以为本舰提供防御，也能为航母编队内的其他舰艇提供防空火力支援。该型导弹的最大速度可达3.5马赫，拥有极快的反应速度，配主动导引头，具备发射后不管的能力。
+    
+    一旦获取作战命令，阿斯特-15舰空导弹能以极快的速度升空并拦截目标。利用A-43垂直发射装置，阿斯特-15舰空导弹的发射速度可以达到10秒钟8发。对于很多执行末端反导的近防炮来说，拦截窗口期的射击次数为1~2次，而阿斯特-15舰空导弹的拦截次数是其至少4倍，并且拦截距离更远，命中精度更高。
+    
+</div>
+    
+  
+<div id="center">js实现右贴边下50px</div>    
     
     <script>
         var wrap = document.getElementById('wrap');
@@ -86,14 +101,22 @@
         var txt =  document.getElementById('txt');
         var center = document.getElementById('center')
         txt.onclick = function () {
-            this.style.height = '800px'
+            this.style.height = '400px';
+            console.log(txt.clientHeight)
         }
+        setCenter()
         window.onresize = function () {
-            console.log(document.documentElement.clientWidth);
-            console.log(document.body.clientWidth)
-            console.log(window.innerWidth)
-            center.style.left = document.documentElement.clientWidth - 200 + 'px';   
-            center.style.top = document.documentElement.clientHeight - 200 + 'px';   
+            console.log('html:'+document.documentElement.clientHeight);
+            console.log('body:'+document.body.clientHeight)   //body总是等于内容的高度
+            console.log('inner:'+window.innerHeight)
+            setCenter()  
+        }
+        window.onscroll = function(){
+            setCenter()
+            // console.log('html:'+ document.documentElement.scrollTop)
+            // console.log('body:'+ document.body.scrollTop)
+            // console.log('兼容'+getScrollTop())
+            
         }
         function getScrollTop() {
             var scroll_Top = document.body.scrollTop == 0
@@ -101,15 +124,21 @@
                         :document.body.scrollTop;
             return scroll_Top;
         }
-        window.onscroll = function(){
-            var scroll_top = document.body.scrollTop == 0 ? document.documentElement.scrollTop:document.body.scrollTop  
-                
-            console.log('html:'+ document.documentElement.scrollTop)
-            console.log('body:'+ document.body.scrollTop)
-            console.log('兼容'+getScrollTop())
-        
+        function setCenter(){  
+            // center.style.top = document.documentElement.clientHeight - 220 + window.pageYOffset + 'px';      
+            center.style.top = document.documentElement.clientHeight - 250 + getScrollTop() + 'px';
+            center.style.left = document.documentElement.clientWidth - 200 + 'px';
+            // console.log('pageYOffset:'+window.pageYOffset)  
         }
+        console.log('body:'+document.body.clientHeight)
+        console.log('doc:'+document.documentElement.clientHeight)
+        console.log('innner:'+ window.innerHeight)
+        console.log('scroll:'+ txt.scrollHeight)
+        console.log(txt.clientHeight)
 
+        txt.onscroll = function(){
+            console.log(txt.scrollTop)
+        }
     </script>
 </body>
 </html>
