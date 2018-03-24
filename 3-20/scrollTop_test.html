@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>拖拽</title>
+    <title>测试scroll高度</title>
     <style>
         body{
             margin:0;
@@ -81,73 +81,6 @@
 <div id="center"></div>    
     
     <script>
-        function Drag(id){
-            this.disX = 0;
-            this.disY = 0;
-            this.l = 0;
-            this.t = 0;
-            this.box = document.getElementById(id);
-            this.fu = this.box.offsetParent;
-            this.init();
-        }
-        Drag.prototype.init = function(){
-            var _this = this;
-            this.box.onmousedown = function(ev){
-                _this.down(ev);
-                console.log(_this.fu,_this.fu.offsetLeft,_this.fu.offsetTop)
-                return false;
-            }
-        }
-        Drag.prototype.down = function(ev){
-            var _this = this;
-            this.disX = ev.clientX - this.box.offsetLeft;
-            this.disY = ev.clientY - this.box.offsetTop;
-            console.log(this.box.offsetLeft,ev.clientX,this.disX);
-            console.log(this.box.offsetTop,ev.clientY,this.disY);
-            console.log(this.box.getBoundingClientRect().left,this.box.getBoundingClientRect().top);
-            console.log(this.box.getBoundingClientRect().right,this.box.getBoundingClientRect().bottom);
-            
-            document.onmousemove = function(ev){
-                _this.move(ev)
-            }
-            document.onmouseup = function(ev){
-                _this.up(ev)
-            }
-        }
-        Drag.prototype.move = function (ev) {
-            this.l = ev.clientX - this.disX;
-            this.t = ev.clientY - this.disY;
-            this.limit();
-            this.box.style.left = this.l+'px';
-            this.box.style.top = this.t+'px';    
-        }
-        Drag.prototype.up = function(){
-            document.onmousemove = null;
-            document.onmouseup = null;
-        }
-        Drag.prototype.limit = function(){
-            var fuBorderL = this.fu.getBoundingClientRect().left + parseInt(getComputedStyle(this.fu).borderLeftWidth);
-            var fuBorderT = this.fu.getBoundingClientRect().top + parseInt(getComputedStyle(this.fu).borderTopWidth);
-            
-            
-            var maxL = document.documentElement.clientWidth - this.box.offsetWidth-fuBorderL;
-            var maxT = document.documentElement.clientHeight - this.box.offsetHeight-fuBorderT;
-            //console.log(getComputedStyle(this.fu).borderTopWidth)
-            if(this.l<0){
-                this.l = 0;
-            }else if(this.l > maxL){
-                this.l = maxL;
-            }
-
-            if(this.t < 0){
-                this.t = 0;
-            }else if(this.t > maxT){
-                this.t = maxT;
-            }
-        }
-
-
-        var box1 = new Drag('box')
         var wrap = document.getElementById('wrap');
         var haha = document.getElementById('haha');
         var txt =  document.getElementById('txt');
