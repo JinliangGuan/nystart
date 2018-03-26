@@ -21,7 +21,7 @@
             background:red;
             position: absolute;
             padding:10px;
-            margin:20px;
+            /* margin:20px; */
             left:15px;
             top:15px;
             border:10px solid skyblue;
@@ -75,6 +75,8 @@
             this.disY = 0;
             this.l = 0;
             this.t = 0;
+            this.maxL = 0;
+            this.maxT = 0;
             this.box = document.getElementById(id);
             this.fu = this.box.offsetParent;
             this.init();
@@ -83,7 +85,7 @@
             var _this = this;
             this.box.onmousedown = function(ev){
                 _this.down(ev);
-                console.log(_this.fu,_this.fu.offsetLeft,_this.fu.offsetTop)
+                // console.log(_this.fu,_this.fu.offsetLeft,_this.fu.offsetTop)
                 return false;
             }
         }
@@ -91,10 +93,16 @@
             var _this = this;
             this.disX = ev.clientX - this.box.offsetLeft;
             this.disY = ev.clientY - this.box.offsetTop;
-            console.log(this.box.offsetLeft,ev.clientX,this.disX);
-            console.log(this.box.offsetTop,ev.clientY,this.disY);
-            console.log(this.box.getBoundingClientRect().left,this.box.getBoundingClientRect().top);
-            console.log(this.box.getBoundingClientRect().right,this.box.getBoundingClientRect().bottom);
+
+            // var fuBorderL = this.fu.getBoundingClientRect().left + parseInt(getComputedStyle(this.fu).borderLeftWidth);
+            // var fuBorderT = this.fu.getBoundingClientRect().top + parseInt(getComputedStyle(this.fu).borderTopWidth);
+
+            var boundingL = this.box.getBoundingClientRect().left - parseInt(getComputedStyle(this.box).left);
+            var boundingT = this.box.getBoundingClientRect().top - parseInt(getComputedStyle(this.box).top);
+            this.maxL = document.documentElement.clientWidth - this.box.offsetWidth - boundingL;
+            this.maxT = document.documentElement.clientHeight - this.box.offsetHeight - boundingT;
+
+            console.log(ev);
             
             document.onmousemove = function(ev){
                 _this.move(ev)
@@ -115,23 +123,18 @@
             document.onmouseup = null;
         }
         Drag.prototype.limit = function(){
-            var fuBorderL = this.fu.getBoundingClientRect().left + parseInt(getComputedStyle(this.fu).borderLeftWidth);
-            var fuBorderT = this.fu.getBoundingClientRect().top + parseInt(getComputedStyle(this.fu).borderTopWidth);
             
-            
-            var maxL = document.documentElement.clientWidth - this.box.offsetWidth-fuBorderL;
-            var maxT = document.documentElement.clientHeight - this.box.offsetHeight-fuBorderT;
-            //console.log(getComputedStyle(this.fu).borderTopWidth)
+            console.log(this.maxL)
             if(this.l<0){
                 this.l = 0;
-            }else if(this.l > maxL){
-                this.l = maxL;
+            }else if(this.l > this.maxL){
+                this.l = this.maxL;
             }
 
             if(this.t < 0){
                 this.t = 0;
-            }else if(this.t > maxT){
-                this.t = maxT;
+            }else if(this.t > this.maxT){
+                this.t = this.maxT;
             }
         }
 
