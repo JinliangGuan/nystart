@@ -21,7 +21,7 @@
             background:red;
             position: absolute;
             padding:10px;
-            /* margin:20px; */
+            margin:20px;
             left:15px;
             top:15px;
             border:10px solid skyblue;
@@ -67,7 +67,18 @@
         <div id="box"></div>
     </div>
 
-</div>      
+</div>    
+    
+<div>
+    <p id="txt">
+        加附件耳机agg；ag <span id="haha">好好的一个内联标签</span>饿啊逛街发射阿斯特-15舰空导弹的戴高乐号航母，其反应速度极快，能够在10秒内打出8发弹，近防炮惨遭鄙视。
+
+        阿斯特-15舰空导弹采用两级固体燃料发动机作为动力，最近可拦截1.7千米处的目标，最远拦截距离超过30千米。这意味着，“戴高乐”号航母不仅仅可以为本舰提供防御，也能为航母编队内的其他舰艇提供防空火力支援。该型导弹的最大速度可达3.5马赫，拥有极快的反应速度，配主动导引头，具备发射后不管的能力。
+        
+        一旦获取作战命令，阿斯特-15舰空导弹能以极快的速度升空并拦截目标。利用A-43垂直发射装置，阿斯特-15舰空导弹的发射速度可以达到10秒钟8发。对于很多执行末端反导的近防炮来说，拦截窗口期的射击次数为1~2次，而阿斯特-15舰空导弹的拦截次数是其至少4倍，并且拦截距离更远，命中精度更高。
+    </p>
+</div>    
+<div id="center"></div>    
     
     <script>
         function Drag(id){
@@ -75,8 +86,6 @@
             this.disY = 0;
             this.l = 0;
             this.t = 0;
-            this.maxL = 0;
-            this.maxT = 0;
             this.box = document.getElementById(id);
             this.fu = this.box.offsetParent;
             this.init();
@@ -85,7 +94,7 @@
             var _this = this;
             this.box.onmousedown = function(ev){
                 _this.down(ev);
-                // console.log(_this.fu,_this.fu.offsetLeft,_this.fu.offsetTop)
+                console.log(_this.fu,_this.fu.offsetLeft,_this.fu.offsetTop)
                 return false;
             }
         }
@@ -93,16 +102,10 @@
             var _this = this;
             this.disX = ev.clientX - this.box.offsetLeft;
             this.disY = ev.clientY - this.box.offsetTop;
-
-            // var fuBorderL = this.fu.getBoundingClientRect().left + parseInt(getComputedStyle(this.fu).borderLeftWidth);
-            // var fuBorderT = this.fu.getBoundingClientRect().top + parseInt(getComputedStyle(this.fu).borderTopWidth);
-
-            var boundingL = this.box.getBoundingClientRect().left - parseInt(getComputedStyle(this.box).left);
-            var boundingT = this.box.getBoundingClientRect().top - parseInt(getComputedStyle(this.box).top);
-            this.maxL = document.documentElement.clientWidth - this.box.offsetWidth - boundingL;
-            this.maxT = document.documentElement.clientHeight - this.box.offsetHeight - boundingT;
-
-            console.log(ev);
+            console.log(this.box.offsetLeft,ev.clientX,this.disX);
+            console.log(this.box.offsetTop,ev.clientY,this.disY);
+            console.log(this.box.getBoundingClientRect().left,this.box.getBoundingClientRect().top);
+            console.log(this.box.getBoundingClientRect().right,this.box.getBoundingClientRect().bottom);
             
             document.onmousemove = function(ev){
                 _this.move(ev)
@@ -123,25 +126,56 @@
             document.onmouseup = null;
         }
         Drag.prototype.limit = function(){
+            var fuBorderL = this.fu.getBoundingClientRect().left + parseInt(getComputedStyle(this.fu).borderLeftWidth);
+            var fuBorderT = this.fu.getBoundingClientRect().top + parseInt(getComputedStyle(this.fu).borderTopWidth);
             
-            console.log(this.maxL)
+            
+            var maxL = document.documentElement.clientWidth - this.box.offsetWidth-fuBorderL;
+            var maxT = document.documentElement.clientHeight - this.box.offsetHeight-fuBorderT;
+            //console.log(getComputedStyle(this.fu).borderTopWidth)
             if(this.l<0){
                 this.l = 0;
-            }else if(this.l > this.maxL){
-                this.l = this.maxL;
+            }else if(this.l > maxL){
+                this.l = maxL;
             }
 
             if(this.t < 0){
                 this.t = 0;
-            }else if(this.t > this.maxT){
-                this.t = this.maxT;
+            }else if(this.t > maxT){
+                this.t = maxT;
             }
         }
 
 
         var box1 = new Drag('box')
         var wrap = document.getElementById('wrap');
-       
+        var haha = document.getElementById('haha');
+        var txt =  document.getElementById('txt');
+        var center = document.getElementById('center')
+        txt.onclick = function () {
+            this.style.height = '800px'
+        }
+        window.onresize = function () {
+            console.log(document.documentElement.clientWidth);
+            console.log(document.body.clientWidth)
+            console.log(window.innerWidth)
+            center.style.left = document.documentElement.clientWidth - 200 + 'px';   
+            center.style.top = document.documentElement.clientHeight - 200 + 'px';   
+        }
+        function getScrollTop() {
+            var scroll_Top = document.body.scrollTop == 0
+                        ?document.documentElement.scrollTop
+                        :document.body.scrollTop;
+            return scroll_Top;
+        }
+        window.onscroll = function(){
+            var scroll_top = document.body.scrollTop == 0 ? document.documentElement.scrollTop:document.body.scrollTop  
+                
+            console.log('html:'+ document.documentElement.scrollTop)
+            console.log('body:'+ document.body.scrollTop)
+            console.log('兼容'+getScrollTop())
+        
+        }
 
     </script>
 </body>
