@@ -15,7 +15,7 @@
 		   alert('我说'+this.name)
 	   }
 	   Fn.prototype.say = function(){   //这里添加方法的优先级为3
-		   alert('我是'+this.name)
+		   //alert('我是'+this.name)
 	   }
 
 	   var f1 = new Fn('guan');
@@ -32,13 +32,13 @@
 	   //Fn.run()
 	   
 	   Object.prototype.koukou = function(){
-		   alert('不要随便抠抠'+this.name)
+		   //alert('不要随便抠抠'+this.name)
 	   }
 	   Function.prototype.gogo = function () { alert('加油'+this.name) }
 	//    f1.gogo()  //普通实例化对象只能找到Object原型上的这一层，如koukou。Function原型上的找不到
 	//    Object.gogo();  //Object可以访问Function原型上的方法
-	   
-
+		
+		
 
 
 	</script>

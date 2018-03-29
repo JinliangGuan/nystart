@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>继承</title>
+    <style>
+        body{
+            margin:0;
+        }
+        #box1,#box2{
+            width: 100px;
+            height: 100px;
+            background:red;
+            position: absolute;
+            padding:10px;
+            /* margin:20px; */
+            left:15px;
+            border:10px solid skyblue;
+        }
+        #box1{
+            top:15px;
+        }
+        #box2{
+            top:200px;
+            background: yellowgreen;
+        }
+    </style>
+</head>
+<body>
+    <div id="box1"></div>
+    <div id="box2"></div>
+<script>
+    function Drag(id){
+        var abc = 123;
+        this.disX = 0;
+        this.disY = 0;
+        this.l = 0;
+        this.t = 0;
+        this.maxL = 0;
+        this.maxT = 0;
+        this.box = document.getElementById(id);
+        this.fu = this.box.offsetParent;
+        //this.init();
+    }
+    Drag.prototype.init = function(abc){
+        var _this = this; 
+        console.log(abc)
+        this.box.onmousedown = function(ev){
+            _this.down(ev);
+            return false;
+        }
+    }
+    Drag.prototype.down = function(ev){
+        var _this = this;
+        this.disX = ev.clientX - this.box.offsetLeft;
+        this.disY = ev.clientY - this.box.offsetTop;
+        var boundingL = this.box.getBoundingClientRect().left - parseInt(getComputedStyle(this.box).left);
+        var boundingT = this.box.getBoundingClientRect().top - parseInt(getComputedStyle(this.box).top);
+        this.maxL = document.documentElement.clientWidth - this.box.offsetWidth - boundingL;
+        this.maxT = document.documentElement.clientHeight - this.box.offsetHeight - boundingT;
+        document.onmousemove = function(ev){
+            _this.move(ev)
+        }
+        document.onmouseup = function(ev){
+            _this.up(ev)
+        }
+    }
+    Drag.prototype.move = function (ev) {
+        this.l = ev.clientX - this.disX;
+        this.t = ev.clientY - this.disY;
+        this.limit();
+        this.box.style.left = this.l+'px';
+        this.box.style.top = this.t+'px';    
+    }
+    Drag.prototype.up = function(){
+        document.onmousemove = null;
+        document.onmouseup = null;
+    }
+    Drag.prototype.limit = function(){
+        if(this.l<0){
+            this.l = 0;
+        }else if(this.l > this.maxL){
+            this.l = this.maxL;
+        }
+
+        if(this.t < 0){
+            this.t = 0;
+        }else if(this.t > this.maxT){
+            this.t = this.maxT;
+        }
+    }
+
+    function Drag2(id){
+        Drag.call(this,id)
+    }
+
+    var f1 = new Drag('box1')
+    f1.init(456);
+    console.log(f1);
+    var f2 = new Drag2('box2')
+    console.log(f2.up)
+    // f2.init();
+
+
+
+// ----------------------------------------
+    function SuperClass(id) {
+        var name = 'javascript'
+        this.books=['javascript','html','css'];
+        this.id = id
+    }
+
+    //声明父类原型方法
+    SuperClass.prototype.showBooks = function () {
+        console.log(this.books)
+    }
+
+    //声明子类
+    function SubClass(id) {
+        SuperClass.call(this,id)
+    }
+
+    //创建第一个子类实例
+    var subclass1 = new SubClass(10);
+    var subclass2 = new SubClass(11);
+
+    console.log(subclass1.books);
+    console.log(subclass2.id);
+    console.log(subclass1.name);   //undefined
+    subclass2.showBooks();
+
+</script>
+</body>
+</html>
