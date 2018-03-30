@@ -42,11 +42,10 @@
         this.maxT = 0;
         this.box = document.getElementById(id);
         this.fu = this.box.offsetParent;
-        //this.init();
+        this.init();
     }
-    Drag.prototype.init = function(abc){
+    Drag.prototype.init = function(){
         var _this = this; 
-        console.log(abc)
         this.box.onmousedown = function(ev){
             _this.down(ev);
             return false;
@@ -91,46 +90,33 @@
             this.t = this.maxT;
         }
     }
+    
 
     function Drag2(id){
         Drag.call(this,id)
     }
-
-    var f1 = new Drag('box1')
-    f1.init(456);
-    console.log(f1);
-    var f2 = new Drag2('box2')
-    console.log(f2.up)
-    // f2.init();
-
-
-
-// ----------------------------------------
-    function SuperClass(id) {
-        var name = 'javascript'
-        this.books=['javascript','html','css'];
-        this.id = id
+    Drag2.prototype.abc = {num:123};
+    //Drag2.prototype = Drag.prototype;直接等于有赋址的问题
+    for(var k in Drag.prototype){
+        Drag2.prototype[k] = Drag.prototype[k];
     }
 
-    //声明父类原型方法
-    SuperClass.prototype.showBooks = function () {
-        console.log(this.books)
-    }
 
-    //声明子类
-    function SubClass(id) {
-        SuperClass.call(this,id)
-    }
+    var f1 = new Drag('box1') //父类实例化对象
+    var f2 = new Drag2('box2') //子类实例化对象
 
-    //创建第一个子类实例
-    var subclass1 = new SubClass(10);
-    var subclass2 = new SubClass(11);
+    f2.abc.num = 789;
+    console.log(Drag.prototype)
+    console.log(f2);
+    console.log(f1.abc==f2.abc)
+    
 
-    console.log(subclass1.books);
-    console.log(subclass2.id);
-    console.log(subclass1.name);   //undefined
-    subclass2.showBooks();
+
+
+
+
+
 
 </script>
 </body>
-</html>
+</html> 
