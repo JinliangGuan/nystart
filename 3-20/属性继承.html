@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>继承</title>
+    <title>拖拽——两种继承方法</title>
     <style>
         body{
             margin:0;
@@ -90,25 +90,52 @@
             this.t = this.maxT;
         }
     }
-    
+    Drag.prototype.abc = {num:123};
 
     function Drag2(id){
         Drag.call(this,id)
     }
-    Drag2.prototype.abc = {num:123};
-    //Drag2.prototype = Drag.prototype;直接等于有赋址的问题
-    for(var k in Drag.prototype){
-        Drag2.prototype[k] = Drag.prototype[k];
-    }
+    
+    //Drag2.prototype = Drag.prototype;   //直接等于有赋址的问题
+    // for(var k in Drag.prototype){      //-------拷贝继承-------
+    //     Drag2.prototype[k] = Drag.prototype[k];
+    // }
+    
+    // var ph = new Drag('box1');   //直接的类式继承，box1此处被白执行了一次，下面f1才是box1要执行的拖拽实例化过程。父类的this绑定的属性也被写入了子类原型中(所以此法有缺陷)
+    // Drag2.prototype = ph;
 
+    function paohui(){}             //------寄生式继承------
+    paohui.prototype = Drag.prototype;  
+    var ph = new paohui;
+    //ph.constructor = Drag2;   //此处和下面修改constructor效果一样
+    Drag2.prototype = ph;
+    Drag2.prototype.constructor = Drag2;
+
+   //给子类添加一个限制函数，覆盖父类中的限制limit函数。
+    Drag2.prototype.limit = function(){
+        if(this.l<0){
+            this.l = 0;
+        }else if(this.l > 500){
+            this.l = 500;
+        }
+
+        if(this.t < 0){
+            this.t = 0;
+        }else if(this.t > 500){
+            this.t = 500;
+        }
+    }
 
     var f1 = new Drag('box1') //父类实例化对象
     var f2 = new Drag2('box2') //子类实例化对象
 
-    f2.abc.num = 789;
     console.log(Drag.prototype)
+    console.log(f1);
     console.log(f2);
-    console.log(f1.abc==f2.abc)
+    console.log(Drag2.prototype)
+
+    console.log(f1.constructor);
+    console.log(f2.constructor);
     
 
 
