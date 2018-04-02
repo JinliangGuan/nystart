@@ -104,12 +104,25 @@
     // var ph = new Drag('box1');   //直接的类式继承，box1此处被白执行了一次，下面f1才是box1要执行的拖拽实例化过程。父类的this绑定的属性也被写入了子类原型中(所以此法有缺陷)
     // Drag2.prototype = ph;
 
-    function paohui(){}             //------寄生式继承------
-    paohui.prototype = Drag.prototype;  
-    var ph = new paohui;
-    //ph.constructor = Drag2;   //此处和下面修改constructor效果一样
-    Drag2.prototype = ph;
-    Drag2.prototype.constructor = Drag2;
+    // function paohui(){}             //------寄生式继承------
+    // paohui.prototype = Drag.prototype;  
+    // var ph = new paohui;
+    // //ph.constructor = Drag2;   //此处和下面修改constructor效果一样
+    // Drag2.prototype = ph;
+    // Drag2.prototype.constructor = Drag2;
+
+    // ---------寄生式继承封函数--------    
+    function ptyToObj(pty){
+        function phFn(){}
+        phFn.prototype = pty;
+        return new phFn; 
+    }
+    function inheritFn(parentFn,childFn){
+        childFn.prototype = ptyToObj(parentFn.prototype);
+        childFn.prototype.constructor = childFn;
+    }    
+
+    inheritFn(Drag,Drag2);
 
    //给子类添加一个限制函数，覆盖父类中的限制limit函数。
     Drag2.prototype.limit = function(){
@@ -134,13 +147,21 @@
     console.log(f2);
     console.log(Drag2.prototype)
 
-    console.log(f1.constructor);
-    console.log(f2.constructor);
+    console.dir(f1.constructor);
+    console.dir(f2.constructor);
     
 
+    function Fn(abc) {
+        var arr = [1,2,3];
+        arr.push(abc);
+        return arr;
+    }
 
+    var a = Fn('acc')
+    a.push(456)
+    var b = Fn('adc');
 
-
+    console.log(a,b)  
 
 
 

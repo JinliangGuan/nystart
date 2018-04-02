@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>继承-方法继承</title>
+    <title>继承-方法继承(拷贝)</title>
     <style>
         body{
             margin:0;
@@ -40,7 +40,8 @@
         console.log('这本书名是'+this.name)
     }
     SuperClass.prototype.bookType = 'javasctipt';        //原型上有属性，值为简单类型       
-    SuperClass.prototype.books = ['javascript','html','css'];   //原型上有属性，值为对象
+    SuperClass.prototype.books = ['javascript','html','css'];   //原型上有属性，值为数组
+    SuperClass.prototype.data = {a:1,b:2,c:3};   //原型上有属性，值为对象
 
     function bookClass(name,price) {  //--------子类----------
         SuperClass.call(this,name);
@@ -72,10 +73,12 @@
     bookCSS.bookType = 'newJS';   // 控制台可见，.bookType操作是在bookCSS本身下加了一个属性bookType=‘newJS'，优先级高于原型上的       
     console.log(bookCSS.bookType,bookJS.bookType)  //=>newJS  javasctipt
 
-    console.log(bookCSS.books);  //=>javasctipt  访问到父类原型上的属性：对象
-    bookCSS.books.push('vue');   //实例化对象上添加了一个数值 
-    console.log(bookJS.books,jqBook.books)  //赋值的问题，父类和其他实例化对象都被影响了。    
-    console.log(bookCSS.books == bookJS.books)  //=>true  由于是赋值，所以其他实例化对象都被加上了vue
+    console.log(bookCSS.data);  //=>javasctipt  访问到父类原型上的属性：对象
+    //bookCSS.books.push('vue');   //子类实例化对象上(找)books属性直接添加push了一个数值=> 影响父类的原型(先找到该对象，后push) 
+    // bookCSS.books = [9,8,7,'vue']                //子类实例化对象上books属性等于一个数据=> 相当于添加了一个新的books属性在实例化对象上，而不会替换掉构造函数原型上的同名属性  
+    bookCSS.data.d = 4;   //子类实例化对象上data属性添加一条新数据=> 相当于访问到该对象，在原型上，再添加数据。父类的原型被修改了
+    console.log(bookJS.data,jqBook.data)  //    
+    console.log(bookCSS.data)  //
 
     
 
