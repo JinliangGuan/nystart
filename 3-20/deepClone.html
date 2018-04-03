@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>deepClone</title>
+</head>
+<body>
+    <input type="button" id="btn" value="按钮">
+    <script>
+        var arr = [1,2,3,4,[0,1,2],{name:'leo'},function(){},undefined,null,66];
+        
+        arr[4].age = 18;
+        function deepclone(obj){
+            var OptoStr = Object.prototype.toString;
+            var o = obj.push?[]:{};
+            for(var k in obj){
+                if(OptoStr.call(obj[k]) == '[object Object]' || OptoStr.call(obj[k]) == '[object Array]'){
+                    o[k] = deepclone(obj[k]);
+                }else{
+                    o[k] = obj[k]
+                }
+            }
+            return o;
+        }
+
+        //纯数据深克隆
+        // var arr2 = JSON.parse(JSON.stringify(arr));     
+
+        //浅克隆
+        // var [...arr2] = arr;   
+        // var arr2 = Object.assign([],arr)
+        // var arr2 = arr.concat();
+        // var arr2 = arr.slice(0);
+        
+        arr2 = deepclone(arr);
+        // console.log(arr2)
+        arr2[4]['age'] = 25;
+        arr.push(1);
+        arr[5].job = 'none';
+        
+        console.log(arr2,arr);
+        console.log(arr2 == arr);
+        console.log(arr[4] == arr2[4]);
+        console.log(arr[5] == arr2[5])
+        console.log()
+
+
+        // ---------数组也可以有属性，fon in可以访问到---------
+        // var arr3 = [0,1,2];
+        // arr3.age = 25;
+        // for(var k in arr3){
+        //     console.log(arr3.hasOwnProperty(k));
+        //     console.log(arr3[k])
+        // }
+
+        
+        
+        
+    </script>
+</body>
+</html>

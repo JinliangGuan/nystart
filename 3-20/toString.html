@@ -19,10 +19,20 @@
         var f = new Fn('abc')
 
         // console.log(String(f));
-        console.log(num.toString(16));
-        console.log(parseInt(num,16));
-        console.log(Object.prototype.toString.call(f))
-        console.dir(f)
+        // console.log(num.toString(16));
+        // console.log(parseInt(num,16));
+        // console.log(Object.prototype.toString.call(f))
+        
+        // -----------识别类型函数-----------
+        function typeis(obj) {
+            return Object.prototype.toString.call(obj).slice(8,-1).toLowerCase();
+        }
+
+        console.log(typeis(Fn));
+        console.log(typeof Fn);
+        console.log(f.constructor)
+
+
     </script>
 </body>
 </html>
