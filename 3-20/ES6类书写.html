@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		
+		
+		
+	<script>
+		class Point {
+			constructor(x,y){
+				this.x = x;
+				this.y = y;
+
+			}
+			static distance(a,b){
+				const dx = a.x-b.x;
+				const dy = a.y-b.y;
+				return Math.hypot(dx,dy)
+			}
+		}
+		console.log(Point)
+		const p1 = new Point(5,5);
+		const p2 = new Point(10,10);
+		console.log(Point.distance(p1,p2))
+		var obj1 = {x:5,y:5};
+		var obj2 = {x:10,y:10}
+		function Fn(){
+
+		}
+		
+		function distance(a,b){
+			const dx = a.x-b.x;
+			const dy = a.y-b.y;
+			return Math.hypot(dx,dy)
+		}
+		
+		console.log(distance(p1,p2))
+		
+		
+		
+	</script>
+	</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>getter&&setter</title>
+	</head>
+	<body>
+		
+		
+		
+	<script>
+		var name = 'add';
+		var obj = {
+			a:1,
+			b:2,
+			get add(){
+				// console.log(this);
+				return this.a+this.b;
+			},
+			set add(val){
+				this.a += val;
+			},
+			get ab(){
+				return 'a+b='+(this.a + this.b);
+			},
+			say() {      //ES6简写的方法 等同于 say:function(){ xxx }
+				console.log(this)   //指向对象本身
+			},
+			set current(name){
+				this.log.push(name)
+			},
+			log:[]
+		}
+		// obj.say()
+		obj.run = function () {
+			console.log(this)      //指向对象本身
+		}
+		obj.a = 20;
+		console.log(obj.add);
+		// obj.run()
+		// console.log(obj.ab)
+		// Object.defineProperty(obj,'c',{
+		// 	get:function(){
+		// 		return this.a-1;
+		// 	}
+		// })
+		// console.log(obj.c)
+		
+		obj.current = 'EN';
+		obj.current = 'CN'
+		console.log(obj.log)
+		Object.defineProperty(obj,'delLog',{set:function(val){
+				this.log = this.log.filter(function(e){
+					return e != val;
+				})
+			}
+		})
+		obj.delLog = 'EN';
+		console.log(obj.log);
+
+		Object.defineProperty(obj,'db',{
+			set:function(x){
+				console.log(this.add);
+				this.b = x/2;
+			},
+			get:function(val){ //可以在一起设置
+				return this.b*2
+			}
+		})
+		obj.db = 25;
+		console.log(obj.b)
+		console.log(obj.db)   
+
+		obj.add = 6;
+		console.log(obj.a);
+
+
+
+	</script>
+	</body>
+</html>
