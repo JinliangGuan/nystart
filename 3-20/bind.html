@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bind</title>
+</head>
+<body>
+
+<script>
+    
+    var animals = [
+    {species: 'Lion', name: 'King'},
+    {species: 'Whale', name: 'Fail'}
+    ];
+    
+    this.x = 9;
+    var module = {
+        x:81,
+        getX:function(){
+            return this.x;
+        }
+    }
+    console.log(module.getX());  //返回81
+    var retrieveX = module.getX;
+    //console.log(retrieveX());   //方法从对象中拿出来，然后再调用,this指向了全局
+
+    var boundGetX = retrieveX.bind(module); // 创建一个新函数，将其内部"this"绑定到module对象
+    //console.log(boundGetX())  //得到了module.x的值
+    //console.log(retrieveX()); //可以看见原函数没有被修改
+
+    function huaFn(){
+        this.pCount = Math.ceil(Math.random()*12)+1;
+    }
+    huaFn.prototype.bloom = function(){
+        setTimeout(this.say.bind(this),1000)
+    }
+    huaFn.prototype.say = function(){
+        console.log(this);
+        console.log('我一多漂亮的花,我有'+ this.pCount + '片花瓣');
+    }
+
+
+
+    var flower = new huaFn();
+    flower.bloom();
+
+
+    function test(a,b,c){
+        return a+b+c
+    }
+    console.log(test(1,5,8))
+    test.call(null,1,5,8)
+    var arr = [1,5,8];
+    console.log(test.apply(null,arr))
+
+
+
+
+</script>
+</body>
+</html>

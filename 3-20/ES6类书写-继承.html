@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>ES6类-继承</title>
+	</head>
+	<body>
+		
+		
+		
+	<script>
+		class Animal{
+			constructor(name,noise){
+				this.name = name;
+				this.noise = noise;
+			}
+			speak(){
+				console.log(this.name+'发出叫声:'+this.noise)
+			}
+		}
+
+		
+		// function Animal(name,noise){     //传统方法生成一个构造函数
+		// 	this.name = name;
+		// 	this.noise = noise;
+		// }
+		// Animal.prototype = {            
+		// 	constructor:Animal,
+		// 	speak(){
+		// 		console.log(this.name+'叫声'+this.noise);
+		// 	},
+		// 	run:function(){
+		// 		console.log(this.name+'跑的快！')
+		// 	}
+		// } 
+		
+		var cat = new Animal('猫','喵喵');
+		cat.speak();
+
+		// console.log(Animal.prototype)
+		class Dog extends Animal{
+			constructor(name,noise,action){
+				super(name,noise)
+				this.action = action;
+			}
+			speak(){
+				console.log(this.name + this.action + '发出叫声'+ this.noise)
+			}
+		}
+		var dog = new Dog('狗','汪汪','摇尾巴');
+		dog.speak();
+		
+		class Lion extends Animal{
+			speak(){
+				super.speak();
+				console.log(this.name+'roars')
+			}
+		}
+		var lion = new Lion('狮子','吼吼');
+		lion.speak();
+		
+
+
+
+	</script>
+	</body>
+</html>
