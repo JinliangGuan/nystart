@@ -38,7 +38,7 @@
     }
     huaFn.prototype.say = function(){
         console.log(this);
-        console.log('我一多漂亮的花,我有'+ this.pCount + '片花瓣');
+        console.log('我一朵漂亮的花,我有'+ this.pCount + '片花瓣');
     }
 
 
@@ -47,15 +47,15 @@
     flower.bloom();
 
 
-    function test(a,b,c){
-        return a+b+c
-    }
-    console.log(test(1,5,8))
-    test.call(null,1,5,8)
-    var arr = [1,5,8];
-    console.log(test.apply(null,arr))
+    // function test(a,b,c){
+    //     return a+b+c
+    // }
+    // console.log(test(1,5,8))
+    // test.call(null,1,5,8)
+    // var arr = [1,5,8];
+    // console.log(test.apply(null,arr))  //arr会被拆成参数列表传入函数
 
-
+   
 
 
 </script>
