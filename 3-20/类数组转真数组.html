@@ -24,7 +24,8 @@
     // lis.push() // 类数组没有push 的方法
     var sliceFn = Array.prototype.slice;
     // var liArr = slice.apply(lis);  //apply和call都行
-    var liArr = sliceFn.call(lis);
+    // var liArr = sliceFn.call(lis);
+    var liArr = Array.apply(null,lis);  //方法二
     liArr.push(1)
     console.log(liArr)
     console.log(liArr.slice());  //无参数slice将返回整个数组副本的新数组

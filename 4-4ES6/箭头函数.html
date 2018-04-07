@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>ES6箭头函数</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		
+	<script>
+		
+		//一般写法:(参数1, 参数2, …, 参数N) => { 函数声明 }
+
+		//var fn = (a,b,c)=>{console.log(a+b+c)}
+		//return的简单写法: (参数1, 参数2, …, 参数N) => 表达式（单一）
+		// var fn = (a,b,c) => a+b+c  //return只有单一表达式,return和{}都省略
+		// console.log(fn(1,2,3))
+		// var fn = (a) => alert(a);  //此处的代码被执行并返回(相当于(a)=>{return alert(a)})
+		// console.log(fn(123))  //alert并没有返回值此处为undefined
+		//一个参数的简单写法:单一参数 => {函数声明}
+		// var fn = e => {alert(e)};  //只有一个参数e，()被省略 
+		//没有参数的函数(必须)写成一对圆括号
+		// var fn = ()=>{alert(123)}
+		
+		// ---高级语法---
+		// 加括号的函数体返回对象字面表达式：参数=> ({foo: bar})
+		// var fn = (a,b,c)=>({a:a,b:b,c:c})
+		// console.log(fn(123,456,789))   //=>{a: 123, b: 456, c: 789}
+		//支持剩余参数和默认参数
+		// (参数1, 参数2, ...rest) => {函数声明}
+		// (参数1 = 默认值1,参数2, …, 参数N = 默认值N) => {函数声明}
+		// var fn = (a=1,b=2,c=3)=>a+b+c
+		// console.log(fn(10,20))  //=>33
+		//同样支持参数列表解构
+		// let f = ([a, b] = [1, 2], {x: c} = {x: a + b}) => a + b + c;
+		// console.log(f());  // 6
+
+		// function Person(age){
+		// 	this.age = age;
+		// 	setInterval(function(){
+		// 		console.log(this,this.age ++);  //NaN,因为this执行了window,this.age=undefined
+		// 	},1000)
+		// }	
+			
+		// function Person(age){
+		// 	var _this = this;  //封闭变量可以保持this
+		// 	this.age = age;
+		// 	setInterval(function growUp(){
+		// 		console.log(_this.age ++);  =>得到正确结果
+		// 	},1000)
+		// }	
+
+		// function Person(age){
+		// 	this.age = age;
+		// 	function growUp(){
+		// 		console.log(this.age ++);
+		// 	}
+		// 	setInterval(growUp.bind(this),1000)
+		// }
+
+		function Person(age){
+			this.age = age;
+			setInterval(()=>{
+				console.log(this.age++)  //箭头函数不会创建自己的this；它使用封闭执行上下文的this值
+			},1000)
+		}
+		var x = new Person(1);
+
+		// var btn = document.getElementById('btn');  
+		// btn.onclick = ()=>{     //箭头函数的this指向了window而不是btn
+		// 	alert(this)
+		// }
+		
+
+		// var fn = ()=>{console.log(arguments)}
+		// fn(1,2,3)
+
+		// function foo() {
+		// 	var f = (i) => arguments[0]+i; //此处的arguments是父级的，箭头函数没有
+		// 	// foo函数的间接参数绑定
+		// 	return f(2);
+		// }
+		// console.log(foo(1)); // 3
+	</script>
+	</body>
+</html>

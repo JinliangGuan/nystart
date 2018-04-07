@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>匿名闭包</title>
+		<style>
+
+    	</style>
+	</head>
+	<body>
+		
+		<p id="help">Helpful notes will appear here</p>
+		<p>E-mail: <input type="text" id="email" name="email"></p>
+		<p>Name: <input type="text" id="name" name="name"></p>
+		<p>Age: <input type="text" id="age" name="age"></p>
+
+		
+	<script>
+		function showHelp(help) {
+			document.getElementById('help').innerHTML = help;
+		}
+
+		function setupHelp() {
+		var helpText = [
+				{'id': 'email', 'help': 'Your e-mail address'},
+				{'id': 'name', 'help': 'Your full name'},
+				{'id': 'age', 'help': 'Your age (you must be over 16)'}
+			];
+
+			for (var i = 0; i < helpText.length; i++) {
+				// var item = helpText[i];
+				// document.getElementById(item.id).onfocus = function() {
+				// 	console.log(i)
+				// 	showHelp(item.help);
+				// }
+				// (function() {
+				// var item = helpText[i];   
+				// document.getElementById(item.id).onfocus = function() {
+				// 	console.log(item.help);
+				// 	showHelp(item.help);
+				// }
+				// })(); // 马上把当前循环项的item与事件回调相关联起来
+
+				clkFn(i)  //上面匿名闭包的有名版
+			}
+			function clkFn(i){      //形参由于被引用着，不会销毁
+				var item = helpText[i];  //item被引用这，不会销毁  
+				document.getElementById(item.id).onfocus = function() {
+					console.log(i); 
+					showHelp(item.help);
+				}
+			}
+		}
+
+		setupHelp();
+		
+
+
+
+	</script>
+	</body>
+</html>

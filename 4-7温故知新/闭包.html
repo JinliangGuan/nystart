@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>闭包</title>
+		<style>
+		body {
+			font-family: Helvetica, Arial, sans-serif;
+			font-size: 12px;
+		}
+
+		h1 {
+			font-size: 1.5em;
+		}
+		h2 {
+			font-size: 1.2em;
+		}
+    </style>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		<br/>
+		<input type="button" id="size-12" value="size12">
+		<input type="button" id="size-14" value="size14">
+		<input type="button" id="size-16" value="size16">
+		<p>Some paragraph text</p>
+		<h1>some heading 1 text</h1>
+		<h2>some heading 2 text</h2>
+
+		
+	<script>
+		function makeFunc(){
+			var name = 'Mozilla';
+			var age = 1;
+			function displayName(){
+				alert(name + age++)
+			}
+			return displayName;
+		}
+		// makeFunc()();  //函数执行闭包被创建，但没有引用，随后被销毁
+		// makeFunc()();  //函数执行，一个新的闭包被创建，但没有引用，随后被销毁
+
+		// var myFunc = makeFunc();  //保存了一个闭包
+		// myFunc();  //1   访问到闭包中的变量name和age
+		// myFunc();  //2  //变量存储了makeFunc()闭包的引用地址，所以第二次执行，仍可以访问原来的那个age
+		// var myFunc = makeFunc();   
+		document.getElementById('btn').onclick = function(){ 
+			var myFunc = makeFunc()  //这是一个单独的作用域，每次执行后，函数都被销毁。也就是说每次执行都是新var一个mFunc
+			myFunc();   
+		}
+
+		function makeSizer(size){   //这样用闭包的好处?
+			return function(){
+				document.body.style.fontSize = size+'px';
+			}
+		}
+		var size12 = makeSizer(12);
+		var size14 = makeSizer(14);
+		var size16 = makeSizer(16);
+		document.getElementById('size-12').onclick = size12;
+		document.getElementById('size-14').onclick = size14;
+		document.getElementById('size-16').onclick = size16;
+
+		// var Counter = (function() {  //Counter等于返回的闭包对象。
+		// 	var privateCounter = 0;  //内部属性外部无法访问
+		// 	function changeBy(val) {  //内部方法，可以改变上边的数据。
+		// 		privateCounter += val;
+		// 	}
+		// 	return {					//三个公共函数是共享同一个环境的闭包。
+		// 		increment: function() {
+		// 			changeBy(1);
+		// 		},
+		// 		decrement: function() {
+		// 			changeBy(-1);
+		// 		},
+		// 		value: function() {
+		// 			return privateCounter;
+		// 		}
+		// 	}   
+		// })();  //匿名函数立即执行，返回值被变量存储
+
+		// console.log(Counter.value()); /* logs 0 */
+		// Counter.increment();
+		// Counter.increment();
+		// console.log(Counter.value()); /* logs 2 */
+		// Counter.decrement();
+		// console.log(Counter.value()); /* logs 1 */
+		//变量privateCounter被保护起来了，可以读取值，不可以设置值。只能同过方法+1/-1。
+
+		var makeCounter = function(){  //Counter等于返回的闭包对象。
+			var privateCounter = 0;  //内部属性外部无法访问
+			function changeBy(val) {  //内部方法，可以改变上边的数据。
+				privateCounter += val;
+			}
+			return {					//三个公共函数是共享同一个环境的闭包。
+				increment: function() {
+					changeBy(1);
+				},
+				decrement: function() {
+					changeBy(-1);
+				},
+				value: function() {
+					return privateCounter;
+				}
+			}   
+		}
+		var Counter1 = makeCounter();
+		var Counter2 = makeCounter();
+
+		console.log(Counter1.value()); /* logs 0 */
+		Counter1.increment();
+		Counter1.increment();
+		console.log(Counter1.value()); /* logs 2 */
+		Counter2.decrement();
+		console.log(Counter2.value()); /* logs 1 */
+
+		
+
+
+
+
+	</script>
+	</body>
+</html>
