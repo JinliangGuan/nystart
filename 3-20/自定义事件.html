@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>自定义事件</title>
+		<style>
+			html{
+				text-align: center;
+				font-size: 30px;
+			}
+			h1{
+				font-size: 4em;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>娜扎真好看</h1>
+		
+		
+	<script>
+		document.onmousedown = function(ev){
+			var disX = ev.clientX;
+			var disY = ev.clientY;
+			var d = new Date;
+			document.onmouseup = function(ev){
+				var d2 = new Date;
+				console.log(Math.abs(disY-ev.clientY))
+				if(d2-d > 2000 && Math.abs(disY-ev.clientY)<5 && Math.abs(disX-ev.clientX)<5){  //这个特殊情况下执行
+					trigger(document,'长按')  //触发事件'长按'	
+				}else{
+					console.log('点击')
+					trigger(document,'点击')
+				}
+			}
+		}
+
+		addEvent(document,'点击',function(){
+			document.documentElement.style.background = 'skyblue'
+		})
+		addEvent(document,'点击',function(){
+			document.documentElement.style.fontSize = '60px';
+		})
+
+		addEvent(document,'长按',function(){
+			document.documentElement.style.background = '#fff'
+		})
+		addEvent(document,'长按',function(){
+			console.log('页面颜色已经还原')
+		})
+		addEvent(document,'长按',function(){
+			document.documentElement.style.fontSize = '30px'
+		})
+
+		//存储器
+		function addEvent(obj,Events,fn){
+			obj.zdy = obj.zdy || {};
+			
+			obj.zdy[Events] = obj.zdy[Events] || [];
+
+			obj.zdy[Events].push(fn);
+		}
+		function trigger(obj,Events){
+			if(!obj.zdy[Events])return;
+			obj.zdy[Events].forEach((e,i)=>{
+				e.call(obj);  //.call指定了函数执行的this对象。像系统事件(如onclick)一样，事件处理函数的this总是指向调用者
+			})
+		}
+		
+	</script>
+	</body>
+</html>

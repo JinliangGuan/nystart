@@ -33,15 +33,17 @@
 				// 	console.log(i)
 				// 	showHelp(item.help);
 				// }
-				// (function() {
-				// var item = helpText[i];   
-				// document.getElementById(item.id).onfocus = function() {
-				// 	console.log(item.help);
-				// 	showHelp(item.help);
-				// }
-				// })(); // 马上把当前循环项的item与事件回调相关联起来
+				(function() {
+				var item = helpText[i];
+				var t = i;   
+				document.getElementById(item.id).onfocus = function() {
+					console.log(item,i,t); //注意此处的i=3！item里面装的值是helpText[i]对应的对象引用,因为闭包item不会被销毁。
+										//而i在此也被引用了，也不销毁。但i是在更上一级的for中声明的，执行最后得3;t是赋值，所以被存下了多个版本012
+					showHelp(item.help);
+				}
+				})(); // 马上把当前循环项的item与事件回调相关联起来
 
-				clkFn(i)  //上面匿名闭包的有名版
+				//clkFn(i)  //上面匿名闭包的有名版
 			}
 			function clkFn(i){      //形参由于被引用着，不会销毁
 				var item = helpText[i];  //item被引用这，不会销毁  
@@ -50,9 +52,13 @@
 					showHelp(item.help);
 				}
 			}
+			helpText.unshift({'id': 'email', 'help': '捣乱大王就是它'})//添加一条无用数据证明item指向的地址被存住了，不会再执行item = helpText[i]这句再找值了。
+			console.log(helpText);
 		}
 
 		setupHelp();
+
+		
 		
 
 
