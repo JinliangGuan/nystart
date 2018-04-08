@@ -22,14 +22,43 @@
 			var disX = ev.clientX;
 			var disY = ev.clientY;
 			var d = new Date;
+			var inMove = true;
+			var inTime = true;
+
+			var timer = setInterval(function(){
+				checkTime();
+			},50)
+			
+			document.onmousemove = function(ev){
+				if(Math.abs(disY-ev.clientY)>5 && Math.abs(disX-ev.clientX)>5){
+					inMove = false;
+					clearInterval(timer);	//停止计时器,因为不可能为长按了
+					document.onmousemove = null;
+				}
+			}
 			document.onmouseup = function(ev){
-				var d2 = new Date;
-				console.log(Math.abs(disY-ev.clientY))
-				if(d2-d > 1500 && Math.abs(disY-ev.clientY)<5 && Math.abs(disX-ev.clientX)<5){  //这个特殊情况下执行
-					trigger(document,'长按')  //触发事件'长按'	
+			
+				if( inMove ){  
+					if(inTime){
+						trigger(document,'点击');  //触发事件'点击';
+						clearInterval(timer);
+					}
 				}else{
-					console.log('点击')
-					trigger(document,'点击')
+					console.log('移动了')
+				}
+
+				document.onmousemove = null;
+				document.onmouseup = null;
+
+			}
+			function checkTime(){
+				var d2 = new Date;
+				console.log(inMove)
+				if(inMove && d2-d > 1500){  //没有移动且规定时间内
+					trigger(document,'长按')  //触发事件'长按'
+					inTime = false;  //点击就不能成了
+					clearInterval(timer);
+					document.onmousemove = null; //move停止判断，让inMove保持为真。否则鼠标不松又移动了，抬起后inMove变false了;
 				}
 			}
 		}
