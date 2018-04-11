@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>解构</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		
+	<script>
+		
+		
+	//(1)变量声明并赋值时的解构
+	var foo = ['one','two','three'];
+	var [one,two,three] = foo;
+	console.log(one); // "one"
+	//(2)变量先声明后赋值时的解构
+	var a,b;
+	[a,b] = [1,2];
+	console.log(a,b)  //1,2
+	//(3)默认值
+	var a,b;
+	[a=5,b=7] = [1];
+	console.log(a,b)  //1,7
+	//(4)交换变量:在一个解构表达式中可以交换两个变量的值,而无须中间值；
+	var a = 1,b=3;
+	[a,b] = [b,a];
+	console.log(a,b) //3,1
+	//(5)解析一个从函数返回的数组
+	function f() {
+		return [1, 2];
+	}
+	var [a, b] = f(); 
+	console.log(a,b); // 1,2
+	//(6)忽略某些返回值
+	function f() {
+		return [1, 2, 3];
+	}
+	var [a, , b] = f();  
+	console.log(a); // 1,3
+	//(7)将剩余数组赋值给一个变量
+	var [a, ...b] = [1, 2, 3];  //除a外全部放到b数组内,参数不够为[];
+	console.log(a,b); // 1,[2,3]
+	//var [a, ...b,] = [1, 2, 3]; 报错，b必须是最后一个元素
+	//(8)用正则表达式匹配提取值
+	//exec()匹配字符串会返回一个数组,可以解构这个数组得到各个子表达式的值并放如相应变量内。
+	//var [, protocol, fullhost, fullpath] = parsedURL; //parsedURL是exec返回值，其他代码略；解构的第一位为空，因为不需要该值。
+	
+	let [x,y=3] = [,6];
+	console.log(x,y)
+	var arr = [1,,3];
+	console.log(arr)
+	</script>
+	</body>
+</html>

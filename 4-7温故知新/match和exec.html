@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>结构</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		
+	<script>
+		
+
+	var str = 'aiegjakabiegjabiiegab4';
+	var re = /ab(\w)/g;
+	console.log(str.match(re))
+	
+	document.getElementById('btn').onclick = function(){
+		console.log(re.exec(str));
+		console.log(re.lastIndex)
+	}
+
+	</script>
+	</body>
+</html>

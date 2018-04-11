@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>自定义事件_模拟系统事件</title>
+		<style>
+			html{
+				text-align: center;
+				font-size: 30px;
+			}
+			h1{
+				font-size: 4em;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="testBox"></div>
+		
+	<script>
+		
+		// 创建事件
+		var evt = document.createEvent('Event');
+		// 定义事件类型
+		evt.initEvent('customEvent', true, true);
+		// 在元素上监听事件
+		var obj = document.getElementById('testBox');
+		obj.addEventListener('customEvent', function(){
+			console.log('customEvent 事件触发了');
+		}, false);
+		
+		document.onclick = function(){
+			console.log(obj.dispatchEvent(evt))
+		}
+		
+		
+	</script>
+	</body>
+</html>

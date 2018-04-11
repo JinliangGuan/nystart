@@ -15,10 +15,12 @@
 	</head>
 	<body>
 		<h1>娜扎真好看</h1>
-		
+		<div id="msg">捣乱大王就是她</div>
 		
 	<script>
+		var msg = document.getElementById('msg');
 		document.onmousedown = function(ev){
+			trigger(msg,'clk')
 			var disX = ev.clientX;
 			var disY = ev.clientY;
 			var d = new Date;
@@ -30,9 +32,21 @@
 				}else{
 					console.log('点击')
 					trigger(document,'点击')
+					trigger(msg,'boss')
 				}
 			}
 		}
+		
+		addEvent(msg,'clk',function(){
+			console.log('小黄人');
+			console.dir(msg)
+		})
+		addEvent(msg,'clk',function(){
+			console.log('来捣乱了');
+		})
+		addEvent(msg,'boss',function(){
+			console.log('格鲁:嘿，安静');
+		})
 
 		addEvent(document,'点击',function(){
 			document.documentElement.style.background = 'skyblue'
@@ -50,21 +64,42 @@
 		addEvent(document,'长按',function(){
 			document.documentElement.style.fontSize = '30px'
 		})
+		
 
 		//存储器
-		function addEvent(obj,Events,fn){
-			obj.zdy = obj.zdy || {};
-			
-			obj.zdy[Events] = obj.zdy[Events] || [];
+		// function addEvent(obj,evType,fn){
+		// 	//1.有对象走原来那个对象，没有对象就创建一个对象去管理。
+		// 	obj.handler = obj.handler || {}; 
+		// 	//2.如果obj.handler有了这个事件名就在之前的事件名的数组中添加函数
+		// 	obj.handler[evType] = obj.handler[evType] || []; 
+		// 	//3.把函数push到这个obj.zdy[指定事件]中
+		// 	obj.handler[evType].push(fn);
+		// }
+		// //触发器
+		// function trigger(obj,evType){
+		// 	//先看有没有帮事件管理对象
+		// 	if(!obj.handler)return;
+		// 	//如果obj.obj.handler没有这个事件，说明没有绑定这个事件
+		// 	if(!obj.handler[evType])return;
+		// 	obj.handler[evType].forEach((e,i)=>{
+		// 		e.call(obj);  //.call指定了函数执行的this对象。像系统事件(如onclick)一样，事件处理函数的this总是指向调用者
+		// 	})
+		// }
 
-			obj.zdy[Events].push(fn);
+		function addEvent(obj,evType,fn){
+			obj.handler = obj.handler || {};
+			obj.handler[evType] = obj.handler[evType] || [];
+			obj.handler[evType].push(fn);
 		}
-		function trigger(obj,Events){
-			if(!obj.zdy[Events])return;
-			obj.zdy[Events].forEach((e,i)=>{
-				e.call(obj);  //.call指定了函数执行的this对象。像系统事件(如onclick)一样，事件处理函数的this总是指向调用者
+		function trigger(obj,evType){
+			if(!obj.handler)return;
+			if(!obj.handler[evType])return;
+			obj.handler[evType].forEach(e=>{
+				e.call(obj);
 			})
 		}
+	      
+		
 		
 	</script>
 	</body>

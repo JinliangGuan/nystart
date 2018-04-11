@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>自定义事件-面向对象</title>
+		<style>
+			html{
+				text-align: center;
+				font-size: 30px;
+			}
+			h1{
+				font-size: 4em;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>娜扎真好看</h1>
+		<div id="msg">捣乱大王就是她</div>
+		
+	<script>
+		var msg = document.getElementById('msg');
+		document.onmousedown = function(ev){
+			anEV.trigger({type:'clk'})
+			var disX = ev.clientX;
+			var disY = ev.clientY;
+			var d = new Date;
+			document.onmouseup = function(ev){
+				var d2 = new Date;
+				console.log(Math.abs(disY-ev.clientY))
+				if(d2-d > 1500 && Math.abs(disY-ev.clientY)<5 && Math.abs(disX-ev.clientX)<5){  //这个特殊情况下执行
+					anEV.trigger({type:'长按'})  //触发事件'长按'	
+				}else{
+					console.log('点击')
+					anEV.trigger({type:'点击'})
+					anEV.trigger({type:'boss'})
+				}
+			}
+		}
+		
+		
+		
+		
+		
+
+		//存储器
+		// function addEvent(obj,evType,fn){
+		// 	//1.有对象走原来那个对象，没有对象就创建一个对象去管理。
+		// 	obj.handler = obj.handler || {}; 
+		// 	//2.如果obj.handler有了这个事件名就在之前的事件名的数组中添加函数
+		// 	obj.handler[evType] = obj.handler[evType] || []; 
+		// 	//3.把函数push到这个obj.zdy[指定事件]中
+		// 	obj.handler[evType].push(fn);
+		// }
+		// //触发器
+		// function trigger(obj,evType){
+		// 	//先看有没有帮事件管理对象
+		// 	if(!obj.handler)return;
+		// 	//如果obj.obj.handler没有这个事件，说明没有绑定这个事件
+		// 	if(!obj.handler[evType])return;
+		// 	obj.handler[evType].forEach((e,i)=>{
+		// 		e.call(obj);  //.call指定了函数执行的this对象。像系统事件(如onclick)一样，事件处理函数的this总是指向调用者
+		// 	})
+		// }
+
+		//自定义事件构造函数	
+		function EventTarget(){
+			this.handler = {}; //处理机
+		}
+		
+	    EventTarget.prototype = {
+			constructor:EventTarget,  
+			addEvent:function(evType,fn){ //evType事件类型(事件名),fn是回调事件处理函数
+				if(typeof this.handler[evType] == 'undefined'){  
+					this.handler[evType] = [];  //this.handler[evType]是否存在，不在就新建一个
+				}
+				this.handler[evType].push(fn)  //把函数压入该事件类型下的数组
+			},
+			//eventObj是一个必须包含type属性的对象.
+			//因为类型是必须的，其次可以传一些处理函数需要的其他变量参数。
+			trigger:function(eventObj){  
+				if(!eventObj.target){ //模拟真实事件对象event
+					eventObj.target = this;
+				}
+				if(this.handler[eventObj.type] instanceof Array){  //判断是否存在该事件类型
+					var evArr = this.handler[eventObj.type];  
+					evArr.forEach(e=>{  //该类型下函数全部被执行
+						e(eventObj); //传递了eventObj参数,传递到每个执行的函数第一个形参。（模拟真实事件对象)   
+					})
+				}
+			},
+			rmEvent:function(evType,fn){  //卸载一个事件处理函数
+				if(this.handler[evType] instanceof Array){  //判断是否存在该事件类型
+					var evArr = this.handler[evType];
+					for(var i=0;i<evArray.length;i++){
+						if(evArr[i] == fn){ //找到要卸载的函数
+							evArr.splice(i,1); //数组中删除该函数
+							break; //立即停止循环，这样i就停留在该函数
+						}	
+					}
+				}
+			}
+		}  
+
+		
+		
+		var anEV = new EventTarget;
+		console.log(anEV)
+		anEV.addEvent('点击',function(){
+			console.log('执行点按01')
+			document.documentElement.style.background = 'skyblue'
+		})
+		anEV.addEvent('点击',function(){
+			document.documentElement.style.fontSize = '60px';
+		})
+
+		anEV.addEvent('长按',function(){
+			document.documentElement.style.background = '#fff'
+		})
+		anEV.addEvent('长按',function(){
+			console.log('页面颜色已经还原')
+		})
+		anEV.addEvent('长按',function(){
+			document.documentElement.style.fontSize = '30px'
+		})
+
+		anEV.addEvent('clk',function(){
+			console.log('小黄人');
+			console.dir(msg)
+		})
+		anEV.addEvent('clk',function(){
+			console.log('来捣乱了');
+		})
+		anEV.addEvent('boss',function(){
+			console.log('格鲁:嘿，安静');
+		})
+		
+		
+	
+		
+	</script>
+	</body>
+</html>

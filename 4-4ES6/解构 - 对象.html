@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>解构</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		
+	<script>
+	// (1)基本赋值(必须用对象key值做变量名)
+	// var o = {p:42,q:true};
+	// var {q,p} = o;
+	// console.log(q,p)  //true,42交换了顺序也没问题,只解构一个p也没问题
+	// var {a,b} = o;	  //没有使用属性名
+	// console.log(a,b)  //undefined,undefined
+	// (2)无声明赋值(注意括号问题)
+	// var a, b;
+	// ({a, b} = {a: 1, b: 2});  //()防止了左边的{a, b}被认为是一个块。但()前上一行最好有;分号，避免被认为是函数执行的意思。
+	// // var {a, b} = {a: 1, b: 2};  //有var 就可以不用()
+	// console.log(a,b)
+	// (3)给新的变量名赋值
+	// //var p,q (就算提前声明p,q也是undefined,只是不报错了)
+	// var o = {p: 42, q: true};
+	// var {p: foo,q:bar} = o;
+	// console.log(foo,bar); // 42,true
+	// console.log(p,q); // 报错p没有找到。使用了p:foo，只会声明foo变量名,而且只会给foo赋值跟p无关了。
+	//(4)默认值
+	// var {a = 10, b = 5,c:{x,y}} = {a: 3,c:{x:1,y:2}};
+	// console.log(a,b,x,y)  //3,5   b没有，取默认值5 //只有一层被解构，c不能被解构了
+	// (5)给新的变量命名并提供默认值
+	// var {a:aa = 10, b:bb = 5,c:cc} = {a: 3};
+	// console.log(aa,bb,cc); // 3,5,undefined  //cc没有默认值，是undefined
+	// (6)函数参数默认值的解构(有传参数走参数，没有走默认)
+	// //ES5的写法
+	// function drawES5Chart(options) {
+	// 	options = options === undefined ? {} : options;    //有参数options就等于自身，没有就新建一个对象。
+	// 	var size = options.size === undefined ? 'big' : options.size;    //没有就走默认值'big'
+	// 	var cords = options.cords === undefined ? { x: 0, y: 0 } : options.cords;
+	// 	var radius = options.radius === undefined ? 25 : options.radius;
+	// 	console.log(size, cords, radius);
+	// }
+	// drawES5Chart({
+	// 	cords: { x: 18, y: 30 },
+	// 	radius: 30
+	// });
+	//ES6写法
+	function drawES2015Chart({size = 'big', cords:{ x= 0, y=0 }, radius = 25}={},{a,b}={a:2,b:3}){ 
+		//上面右边={}部分可以被省略，但是传参就不能为空了，至少传{}空键值对，否则会报错
+		console.log(size, x,y, radius,a,b); //传参的时候是对象，函数里用时直接是key名的变量
+	}
+	drawES2015Chart({    //传参时是变量
+		cords: { x: 18, y: 30 },
+		radius: 30
+	},{
+		a:'wo'
+	});
+
+		//(7)解构嵌套对象和数组
+		//总结来说就是数组找位置相对的项，对象找key相对的项，拆成一个个的小项，右边赋值给左边变量。
+		//(8)有点牛
+
+	// function drawES2015Chart({size = 'big', cords:{ x= 0, y=0 }, radius = 25}={},{a=2,b=3}={a:2,b:3}){ 
+	// 	console.log(size, x,y, radius,a,b); 
+	// }
+
+	//{a=2,b}={a:4,b:5}
+
+	</script>
+	</body>
+</html>
