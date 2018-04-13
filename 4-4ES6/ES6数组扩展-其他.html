@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>es6数组扩展-其他</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	<script>
+	var arr = [1, 5, 10, 15].find(function(value, index, arr){
+		return value > 9;
+	}) 
+	console.log(arr);// 10
+	//箭头函数写法举例
+	[1, 4, -5, 10].find((n) => n < 0);
+
+	//数组的遍历
+	var arr2 = [1, 5, 10, 15];
+	// for(let items of arr2.values()){  //有问题
+	// 	console.log(items)
+	// }
+	console.log(arr2)
+	var set2  =  new Set(arr2)
+	console.dir(arr2)
+	for(let val of arr2){
+		console.log(val)
+	}
+
+	//copyWith
+	var arr5 = [1, 2, 3, 4, 5];
+	arr5.copyWithin(0, 3);
+	console.log(arr5)  //注意原数组会改变[4, 5, 3, 4, 5]
+// [4, 5, 3, 4, 5]
+	console.log( [1, 2, 3, 4, 5, 6, 7, 8].copyWithin(0,3))
+
+	
+	</script>
+	</body>
+</html>
