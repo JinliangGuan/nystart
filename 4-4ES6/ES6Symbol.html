@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>es6-Symbol</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	<script>
+
+	// let s = Symbol();
+	// let ss = Symbol();
+	
+	// console.log(s==ss)  //false;
+
+	// let s1 = Symbol('foo');
+	// let s2 = Symbol('bar');
+	// console.log(s1,s2)// Symbol(foo),// Symbol(bar)
+	// console.log(s1.toString(s1))  //Symbol(foo)
+
+	// let sym = Symbol('My symbol');
+	// 'your symbol is'+sym;	//报错
+	// console.log(String(sym),sym.toString()) //Symbol(My symbol) Symbol(My symbol)
+
+	// let sym = Symbol();
+	// console.log(Boolean(s)) // true
+	// Number(s) // TypeError
+	// sym + 2 // TypeError
+
+	//作为属性名的 Symbol 
+	
+	let mySymbol = Symbol();
+	// 第一种写法
+	// let a = {};
+	// a[mySymbol] = 'HELLO!'
+	// 第二种写法
+	// let a = {
+	// 	[mySymbol] : 'hello!'
+	// }
+	// 第三种写法
+	// let a = {};
+	// Object.defineProperty(a,mySymbol,{value:'hello!'})
+	// console.log(a[mySymbol]);
+
+	let sym2 = Symbol('foo');	
+	let abc = {aa:'aa',bb:'bb'};
+	abc[mySymbol] = 'hello';   //Symbol作为属性名，不会被遍历	
+	abc[sym2] = 'world';
+	for(var k in abc){
+		console.log(k)
+	}
+	console.log(Object.getOwnPropertySymbols(abc)) //[Symbol(), Symbol()]
+	let sym3 = Symbol.for('foo');
+	console.log(sym3==sym2)
+
+	//Symbol.for使得可以使用同一个值
+	const FOO_KEY = Symbol.for('foo');
+	const foo_key = Symbol.for('foo');
+	console.log(FOO_KEY==foo_key);
+	console.log(Symbol.keyFor(FOO_KEY)) //foo
+
+	</script>
+	</body>
+</html>

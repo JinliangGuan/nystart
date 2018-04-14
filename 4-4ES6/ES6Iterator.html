@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>es6-Iterator</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	<script>
+
+	//模拟遍历器执行
+	// var it = makeIterator(['a', 'b']);
+	// document.getElementById('btn').onclick=function(){
+	// 	console.log(it.next())
+	// }
+
+	// function makeIterator(array) {
+	// 	var nextIndex = 0;
+	// 	return {
+	// 		next: function() {
+	// 			return nextIndex < array.length ?
+	// 				{value: array[nextIndex++], done: false} :
+	// 				{value: undefined, done: true};
+	// 		}
+	// 	};
+	// }
+
+	//系统默认遍历器
+	let arr = ['a', 'b', 'c'];
+	let iter = arr[Symbol.iterator]();
+
+	// iter.next() // { value: 'a', done: false }
+	// iter.next() // { value: 'b', done: false }
+	// iter.next() // { value: 'c', done: false }
+	// iter.next() // { value: undefined, done: true }
+	document.getElementById('btn').onclick=function(){
+		console.log(iter.next())
+	}
+	//一个类部署遍历接口
+	class RangeIterator {
+		constructor(start, stop) {
+			this.value = start;
+			this.stop = stop;
+		}
+
+		[Symbol.iterator]() { return this; }
+
+		next() {
+			var value = this.value;
+			if (value < this.stop) {
+				this.value++;
+				return {done: false, value: value};
+			}
+			return {done: true, value: undefined};
+		}
+	}
+
+	function range(start, stop) {
+		return new RangeIterator(start, stop);
+	}
+
+	for (var value of range(0, 3)) {
+		console.log(value); // 0, 1, 2
+	}
+	
+
+
+	let arrayLike = { length: 7, 0: 'a', 1: 'b'};
+	// 报错
+	// for (let x of arrayLike) {
+	// 	console.log(x);
+	// }
+	// 正确
+	console.log(Array.from(arrayLike))  //["a", "b"} 
+	for (let x of Array.from(arrayLike)) {
+		console.log(x);
+	}
+
+	// var str = 'helloworld';//字面量声明的字符串无法修改Itorator
+	var str = new String('helloworld');
+	console.log(str[Symbol.iterator]())  //str原生有Iterator接口
+	str[Symbol.iterator] = function(){
+		return {
+			next:function(){
+				if(this._first){
+					this._first = false;
+					return {value:'bye',done:false}
+				}else{
+					return {done:true};
+				}
+			},
+			_first:true
+		}
+	}
+	console.log([...str]);
+
+
+
+
+
+
+	</script>
+	</body>
+</html>
