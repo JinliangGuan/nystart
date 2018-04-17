@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>es6-Promise</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	<script>
+
+	// const promise = new Promise(function(resolue,reject){
+	// 		// ... some code
+	// 		if(/* 异步操作成功 */){
+	// 			resolve(value)
+	// 		}else{
+	// 			reject(error)
+	// 		}
+	// 	}
+	// )
+
+	// promise.then(function(value){
+	// 	// success
+	// },function(err){
+	// 	//failure
+	// })
+
+	function timeout(ms){
+		return new Promise((resolve,reject)=>{
+			setTimeout(resolve,ms,'done')
+		})
+	}
+
+	timeout(100).then((value)=>{
+		console.log(value)
+	})
+
+
+
+
+	</script>
+	</body>
+</html>

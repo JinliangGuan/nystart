@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>es6-Generator</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	<script>
+	function* helloGenerator(){
+		yield 'hello';
+		yield 'world';
+		return 'ending'
+	}
+	var hw = helloGenerator();
+	// console.log(hw.next());  //{value: "hello", done: false}
+	// console.log(hw.next());  //{value: "world", done: false}
+	// console.log(hw.next());  //{value: "ending", done: true}
+	// console.log(hw.next());  //{value: undefined, done: true}
+
+	// document.getElementById('btn').onclick = function(){
+	// 	console.log(hw.next());
+	// }
+
+	// var arr = [1, [[2, 3], 4], [5, 6]]; // 二维数组
+	// var flat = function* (a){           //递归Generator函数
+	// 	var len = a.length;
+	// 	for(var i=0;i<len;i++){
+	// 		var item = a[i];
+	// 		if(typeof item != 'number'){   //如果不是数字，就是二维数组，递归
+	// 			yield* flat(item)
+	// 		}else{
+	// 			yield item;
+	// 		}
+	// 	}
+	// }
+	// for(let ite of flat(arr)){  //for of会自动调用遍历器的next方法，返回value值给ite
+	// 	console.log(ite);      
+	// }
+
+	//用Generator函数作为对象的Iterator接口
+	// var myIterable = {};
+	// myIterable[Symbol.iterator] = function* () {
+	// 	yield 1;
+	// 	yield 2;
+	// 	yield 3;  //此处不可以改return ,否则此处的值不会被返回
+	// };
+	// for(let ite of myIterable){
+	// 	console.log(ite)
+	// }
+	
+	//Generator 函数执行后，返回一个遍历器对象。该对象本身也具有Symbol.iterator属性，执行后返回自身。
+	// function* gen() {
+	// 	yield 1;
+	// 	yield 2;
+	// 	yield 3;  //此处不可以改return ,否则此处的值不会被返回
+	// };
+	// var g = gen();
+	// console.log(g[Symbol.iterator]() == g)
+	// for(let ite of g){
+	// 	console.log(ite)
+	// }
+
+	// next 方法的参数
+	function* f() {
+		for(var i = 0; true; i++) {
+			var reset = yield i; //yield表达式本身没有返回值，或者说总是返回undefined 
+			if(reset) { i = -1; }
+		}
+	}
+	// var g = f();
+	// console.log(g.next()) // { value: 0, done: false }
+	// console.log(g.next()) // { value: 1, done: false }
+	// console.log(g.next()) // { value: 2, done: false }
+	// console.log(g.next(true))  // { value: 0, done: false }	
+
+	//通过next向函数注入值的例子
+	function* foo(x) {
+		var y = 2 * (yield (x + 1));
+		var z = yield (y / 3);
+		return (x + y + z);
+	}
+
+	// var a = foo(5);
+	// console.log(a.next()) // Object{value:6, done:false}
+	// console.log(a.next()) // Object{value:NaN, done:false}
+	// console.log(a.next()) // Object{value:NaN, done:true}
+
+	// var b = foo(5);
+	// console.log(b.next()) // { value:6, done:false }
+	// console.log(b.next(12)) // { value:8, done:false }
+	// console.log(b.next(13)) // { value:42, done:true }
+	
+	//通过next向函数注入值的例子2
+	function* dataConsumer() {
+		console.log('Started');
+		console.log(`1. ${yield}`);
+		console.log(`2. ${yield}`);
+		return 'result';
+	}
+
+	let genObj = dataConsumer();
+	// console.log(genObj.next());   // Started 和 {value: undefined, done: false}
+	// console.log(genObj.next('a')) // 1. a 和 {value: undefined, done: false}
+	// console.log(genObj.next('b')) // 2. b 和 {value: "result", done: true}
+	
+	let jane = { first: 'Jane', last: 'Doe'};
+
+	Object.defineProperty(jane,'isMei',{value:'枚举属性',enumerable:false})
+
+	// function* objectEntries(obj) {
+	// 	let propKeys = Reflect.ownKeys(obj);
+	// 	for (let propKey of propKeys) {
+	// 		yield [propKey, obj[propKey]];
+	// 	}
+	// }
+	// for (let [key, value] of objectEntries(jane)) {
+	// 	console.log(`${key}: ${value}`);
+	// }
+
+	function* objectEntries() {
+		let propKeys = Object.keys(this);
+		for (let propKey of propKeys) {
+			yield [propKey, this[propKey]];
+		}
+	}
+	jane[Symbol.iterator] = objectEntries;
+	for (let [key, value] of jane) {
+		console.log(`${key}: ${value}`);
+	}
+	
+	function* foo() {
+		yield 'a';
+		yield 'b';
+	}
+	function* bar() {
+		yield 'x';
+		yield* foo();
+		yield 'y';
+	}
+	for (let v of bar()){
+		console.log(v);
+	}
+	// "x""a""b""y"
+
+	//如果一个对象的属性是 Generator 函数，可以简写成下面的形式。
+	// let obj = {
+	// * myGeneratorMethod() {
+	// 	console.log(this) //G函数是obj的一个方法，this指向obj
+	// 	//···
+	// 	}
+	// };
+	// console.log(obj.myGeneratorMethod().next()) 
+
+	// Generator 函数的this
+
+	// function* g() {
+	// 	console.log(this)
+	// }
+	// g.prototype.hello = function () {
+	// 	return 'hi!';
+	// };
+
+	// let obj = g();
+	// console.log(obj instanceof g) // true
+	// console.log(obj.hello()) // 'hi!'
+	
+	// var abc = {};
+	// abc.cba = g;
+	// abc.cba().next();
+
+
+
+	</script>
+	</body>
+</html>
