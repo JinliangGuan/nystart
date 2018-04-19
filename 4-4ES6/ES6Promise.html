@@ -7,19 +7,11 @@
 	<body>
 		
 		<input type="button" id="btn" value="按钮">
-		<ul>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-			<li></li>
-		</ul>
+		<div id="box"></div>
+		<!-- <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523963370995&di=7b80d68746034c35d0b786df8645a485&imgtype=0&src=http%3A%2F%2Fimgcache.cjmx.com%2Fstar%2F201512%2F20151227014936459.jpg" alt=""> -->
 	<script>
 
-	// const promise = new Promise(function(resolue,reject){
+	// const promise = new Promise(function(ress,reject){
 	// 		// ... some code
 	// 		if(/* 异步操作成功 */){
 	// 			resolve(value)
@@ -35,18 +27,120 @@
 	// 	//failure
 	// })
 
-	function timeout(ms){
-		return new Promise((resolve,reject)=>{
-			setTimeout(resolve,ms,'done')
+	// function timeout(ms){
+	// 	return new Promise((resolve,reject)=>{
+	// 		setTimeout(resolve,ms,'done')
+	// 	})
+	// }
+
+	// timeout(100).then((value)=>{
+	// 	console.log(value)
+	// })
+
+	// //promise的加载顺序--------------
+	// let promise = new Promise(function(resolve, reject) {
+	// 	console.log('Promise');
+	// 	resolve();
+	// });
+
+	// promise.then(function() {
+	// 	console.log('resolved.');
+	// });
+
+
+
+	//异步加载图片的例子----------------
+	function loadImageAsync(url){
+		return new Promise(function(resolve,reject){
+			const image = new Image();
+			image.onload = function(){
+				console.log('成功加载图片')
+				resolve(image);
+			}
+			image.error = function(){
+				reject(new Error('Could not load image at ' + url))
+			}
+			setTimeout(function(){  //模拟网络传输延迟
+				console.log('等待加载图片')
+				image.src = url;
+			},1500)
 		})
 	}
 
-	timeout(100).then((value)=>{
-		console.log(value)
+	var prmImg =  loadImageAsync('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1523963370995&di=7b80d68746034c35d0b786df8645a485&imgtype=0&src=http%3A%2F%2Fimgcache.cjmx.com%2Fstar%2F201512%2F20151227014936459.jpg');
+	prmImg.then(function(img){
+		document.getElementById('box').appendChild(img);
+		console.log('加载了一张图片')
 	})
 
+	//promise的Ajax-------------
+	// const getJSON = function(url){
+	// 	const promise = new Promise(function(resolve,reject){
+	// 		const handler = function(){
+	// 			if(this.readyState !== 4){
+	// 				return;
+	// 			}
+	// 			if(this.status === 200){
+	// 				resolve(this.response);
+	// 			}else{
+	// 				reject(new Error(this.statusText))
+	// 			}
+	// 		}
+	// 		const client = new XMLHttpRequest();
+	// 		client.open('GET',url);
+	// 		client.onreadystatechange = handler;
+	// 		client.responseType = 'json';
+	// 		client.setRequestHeader('Accept','application/json');
+	// 		client.send();
+	// 	})
+	// 	return promise;
+	// }
+	// getJSON('/posts.json').then(function(json){
+	// 	console.log('内容是'+json)
+	// },function(error){
+	// 	console.log('出错了',error)
+	// })
 
 
+	//promise操作的结果是另一个异步操作。-------------
+	const p1 = new Promise(function (resolve, reject) {
+		// setTimeout(() => reject(new Error('fail')), 3000)
+		setTimeout(() => {
+			console.log('p1已经执行完')
+			resolve('p1说：拿着橘子')
+		}, 1000)
+	})
+
+	const p2 = new Promise(function (resolve, reject) {
+		setTimeout(() => {
+			console.log('p2已经执行完')
+			resolve(p1)
+		}, 3000)
+	})
+
+	p2
+	.then(result => console.log('这里是p2回调函数结果：'+result))
+	.catch(error => console.log(error))
+	// Error: fail
+	console.log(p2)
+
+	//调用resolve或reject并不会终结 Promise 的参数函数的执行。-------
+// 	new Promise((resolve, reject) => {
+// 		resolve(1);
+// 		console.log(2);
+// 	}).then(r => {
+// 		console.log(r);
+// 	});
+// 	// 2
+
+// // Promise 实例具有then方法--------------------
+// 	getJSON("/posts.json").then(function(json) {
+// 		return json.post;
+// 	}).then(function(post) {
+// 	// ...
+// 	});
+
+	console.log('Hi!');   //因为写在最后，代表了页面的同步任务结束。
 
 	</script>
 	</body>
