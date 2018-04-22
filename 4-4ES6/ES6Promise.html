@@ -103,35 +103,35 @@
 
 
 	//promise操作的结果是另一个异步操作。-------------
-	const p1 = new Promise(function (resolve, reject) {
-		// setTimeout(() => reject(new Error('fail')), 3000)
-		setTimeout(() => {
-			console.log('p1已经执行完')
-			resolve('p1说：拿着橘子')
-		}, 1000)
-	})
+	// const p1 = new Promise(function (resolve, reject) {
+	// 	// setTimeout(() => reject(new Error('fail')), 3000)
+	// 	setTimeout(() => {
+	// 		console.log('p1已经执行完')
+	// 		resolve('p1说：拿着橘子')
+	// 	}, 1000)
+	// })
 
-	const p2 = new Promise(function (resolve, reject) {
-		setTimeout(() => {
-			console.log('p2已经执行完')
-			resolve(p1)
-		}, 3000)
-	})
+	// const p2 = new Promise(function (resolve, reject) {
+	// 	setTimeout(() => {
+	// 		console.log('p2已经执行完')
+	// 		resolve(p1)
+	// 	}, 3000)
+	// })
 
-	p2
-	.then(result => console.log('这里是p2回调函数结果：'+result))
-	.catch(error => console.log(error))
-	// Error: fail
-	console.log(p2)
+	// p2
+	// .then(result => console.log('这里是p2回调函数结果：'+result))
+	// .catch(error => console.log(error))
+	// // Error: fail
+	// console.log(p2)
 
 	//调用resolve或reject并不会终结 Promise 的参数函数的执行。-------
-// 	new Promise((resolve, reject) => {
-// 		resolve(1);
-// 		console.log(2);
-// 	}).then(r => {
-// 		console.log(r);
-// 	});
-// 	// 2
+	new Promise((resolve, reject) => {
+		resolve(1);
+		console.log(2);
+	}).then(r => {
+		console.log(r);
+	});
+	// 2
 
 // // Promise 实例具有then方法--------------------
 // 	getJSON("/posts.json").then(function(json) {
