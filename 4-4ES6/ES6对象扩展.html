@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>es6对象扩展</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		
+	<script>
+
+	//属性名表达式	--------------------------
+	let lastWord = 'last word';
+
+	const a = {
+		'first word': 'hello',
+		[lastWord]: 'world'
+	};
+
+	console.log(a['first word']) // "hello"
+	console.log(a[lastWord]) // "world"
+	console.log(a['last word']) // "world"
+
+	//属性名表达式与简洁表示法，不能同时使用，会报错。
+	// 报错
+	const foo = 'bar';
+	const bar = 'abc';
+	// const baz = { [foo] };
+
+
+	// 正确
+	// const baz = { [foo]: 'abc'};
+	const baz = { [foo]:bar };  //或这种写法
+
+	//方法的name属性-----------------------
+	const person = {
+		sayName() {
+			console.log('hello!');
+		},
+	};
+
+	console.log(person.sayName.name)   // "sayName"
+	// 取值函数（getter）和存值函数（setter）
+	const obj = {
+		get foo() {},
+		set foo(x) {}
+	};
+	// console.log(obj.foo.name)// TypeError: Cannot read property 'name' of undefined
+	
+	const descriptor = Object.getOwnPropertyDescriptor(obj, 'foo');
+	descriptor.get.name // "get foo"
+	descriptor.set.name // "set foo"
+
+	//Object.is()-------------------------
+	console.log(+0 === -0 )
+	console.log(NaN === NaN)
+	console.log(Object.is(+0, -0))
+	console.log(Object.is(NaN, NaN))
+
+	</script>
+	</body>
+</html>
