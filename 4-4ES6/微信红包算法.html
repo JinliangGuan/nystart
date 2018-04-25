@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>微信红包算法</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		
+	<script>
+//写法1------------------
+	var arr = getRandomNum(1000, 6);
+	console.log(arr);
+	console.log(arr.reduce((pre, v) => pre + v, 0));
+
+	function getRandomNum(num, times) {
+		let res = [];
+		if (times === 1) {
+			res.push(num);
+			return res;
+		};
+		let max = num / times * 2;
+		let current = 1 + (~~(Math.random() * max - 1));  //~~其实是一种利用符号进行的类型转换,转换成数字类型
+		res.push(current);
+		return res.concat(getRandomNum(num - current, --times));
+	}
+
+//写法2------------------
+	// function randomDivide(total, nums) {
+	// 	rest = total;
+	// 	const result = Array.apply(null, { length: nums })
+	// 		.map((n, i) => nums - i)
+	// 		.map(n => {
+	// 			const v = 1 + Math.floor(Math.random() * (rest / n * 2 - 1));
+	// 			rest -= v;
+	// 			return v;
+	// 		});
+	// 	result[nums - 1] += rest;
+	// 	return result;
+	// }
+
+	// // testing
+	// const result = randomDivide(1000, 6);
+	// console.log(result.join(","));
+	// console.log(result.length);
+	// console.log(result.reduce((acc, n) => acc + n));
+
+
+	</script>
+	</body>
+</html>
