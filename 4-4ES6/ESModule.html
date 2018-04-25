@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Module</title>
+	</head>
+	<body>
+		
+		<input type="button" id="btn" value="按钮">
+		
+	<script>
+	//arguments.callee-------------------
+	// function show(n){
+	// 	var arr = [];
+	// 	console.log('wai')
+	// 	return (function (){   //返回的是一个匿名函数自执行，即返回该函数内部的return值
+	// 		arr.unshift(n);   //每次在数组开头添加n
+	// 		n--;		
+	// 		console.log(n)  //=>4,3,2,1,0   
+	// 		if(n != 0){		//不等于0就继续调用自身函数	
+	// 			arguments.callee();   //callee指向arguments对象的函数
+	// 		}
+	// 		console.log(n)  //=>0,0,0,0,0 思考下为什么?
+	// 		return arr;
+	// 	})() 
+	// }
+	//写法二--------------------------
+	function show(n){
+		var arr = [];
+		fn();
+		function fn(){
+			arr.unshift(n);
+			n--;
+			if(n > 0 ){
+				fn();
+			}
+		}
+		return arr;
+	}
+	console.log(show(5));
+
+	//严格模式--------------------
+
+	</script>
+	</body>
+</html>
