@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue实例</title>
+</head>
+<body>
+    <div id="box">
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var data = {a:1};
+        var vm = new Vue({
+            el:'#box',
+            data:data,
+            created:function(){
+                console.log('a is ' + this.a)
+            }
+        })
+        
+        console.log(vm.a == data.a)
+        vm.a = 5;
+        console.log(data.a);
+
+        vm.b = 'hi';
+        console.log(data.b)
+        console.log(vm.$data)
+
+        vm.$watch('a',function(newVal,oldVal){
+            if(newVal>oldVal){
+                console.log('值变大了')
+            }
+        })
+
+
+
+    </script>
+</body>
+</html>

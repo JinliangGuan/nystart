@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue模板语法</title>
+    <style>
+       #btn{
+           background:skyblue;
+       }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p>Using mustache:{{rawHtml}}</p>
+        <p>Using mustache:<span v-html="rawHtml"></span></p>
+        <input v-bind:id="id" type="button" value="按钮" v-bind:disabled="isBtnDisabled">
+        <button v-if="seen">{{btnName()}}</button>  
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'h233',
+                id:'btn',
+                isBtnDisabled:true,
+                rawHtml:'<span style="color:red;">this should be red</span>',
+                seen:true
+            },
+            methods:{
+                btnName:function(){   //插值为方法的返回值也行(很挫)
+                    return '那妞'
+                }
+            }
+        })
+
+        // document.onclick = function(){     //dom法
+        //     document.getElementById('btn').disabled = false;
+        // }
+
+        
+
+
+    </script>
+</body>
+</html>
