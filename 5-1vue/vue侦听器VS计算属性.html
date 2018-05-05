@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue侦听器vs计算属性</title>
+</head>
+<body>
+    
+    <div id="demo">
+        <label>firstName: </label><input type="text" v-model="firstName"><br />
+        <label>lastName: </label><input type="text" v-model="lastName">
+        <p>{{fullName}}</p>
+        <p>翻转firstName: {{firstNameReverse()}}</p>
+        <p>时间：{{Date.now()}}</p>
+        <p>test: {{test}}</p>
+        <p><input type="text" v-model="b">test:thisAB:{{this.a + this.b}}</p>
+        <input type="text" v-model="obj.a.b.c">
+        
+    </div>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // var vm = new Vue({
+        //     el: '#demo',
+        //     data: {
+        //         firstName:'Foo',
+        //         lastName:'Bar',
+        //         fullName:'Foo Bar'
+        //     },
+        //     watch:{
+        //         firstName:function(newName,oldName){
+        //             this.fullName = newName+ ' ' + this.lastName;
+        //         },
+        //         lastName:function(newName,oldName){
+        //             this.fullName = this.firstName+ ' ' +newName;
+        //         }
+        //     }
+            
+        // })
+
+        // -----------conputed-----------
+        var vm = new Vue({
+            el: '#demo',
+            data: {
+                firstName:'Foo',
+                lastName:'Bar',
+                obj:{
+                    a:{
+                        b:{
+                            c:'end'
+                        }
+                    }
+                },
+                a:123,
+                b:456
+            },
+            computed:{
+                fullName:function(){
+                    
+                    return this.firstName +' '+this.lastName;
+                },
+                test:function(){
+                    console.log('执行了computed');  //只有依赖this.lastName改变才会触发再次执行此函数，否则走缓存
+                    return this.lastName;
+                }
+            },
+            methods:{
+                firstNameReverse:function(){
+                    // console.log('执行了method');   //不管data中谁执行，代码中的firstNameReverse()都会执行一遍
+                    return this.firstName.split('').reverse().join('');
+                }
+            },
+            watch:{
+                obj:function(n,o){
+                    console.log(n,o)
+                }
+            }
+            
+        })
+        
+        vm.$watch('obj.a.b.c',function(nv,ov){
+            console.log(nv)    
+        },{deep:true})
+        unwatch = vm.$watch(function(){
+            var r = this.obj.a.b.c; //此值写入后，就被侦听了(deep方可)
+            return this.a+this.b   //a,b都被侦听，动即执行下面函数
+        },function(nv,ov){
+            console.log('watch:'+ nv);
+            unwatch()    
+        },{deep:true})
+
+        vm.$watch('b',function(nv,ov){
+            console.log(nv)
+        },{immediate:true})
+
+    </script>
+</body>
+</html>
