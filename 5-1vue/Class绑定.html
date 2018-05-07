@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue - Class与Style 绑定</title>
+    <style>
+
+        .active{
+            color:red;
+        }
+        .text-danger{
+            font-style:italic;
+            font-variant:small-caps;
+            font-weight:bold;
+        }
+        .big{
+            font-size:30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- <div class="big" v-bind:class="{ active: isActive,'text-danger':hasError}">-->
+            
+        <div class="big" v-bind:class="classData">
+            我很红吗haha
+        </div>
+        <button v-on:click="btnFn">错错错</button>
+        <button v-on:click="redFn">red/Active</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        // var vm = new Vue({
+        //     el:'#app',
+        //     data:{
+        //         isActive:false,
+        //         hasError:false
+        //     },
+        //     methods:{
+        //         btnFn:function(){
+        //             console.log('错没错');
+                    
+        //             this.hasError = !this.hasError;
+        //         },
+        //         redFn:function(){
+        //             this.isActive = !this.isActive;
+        //         }
+        //     }
+        // })
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                classData:{
+                    active:false,
+                    'text-danger':false
+                }
+            },
+            methods:{
+                btnFn:function(){
+                    console.log('错没错');
+                    this.classData.active = !this.active;
+                },
+                redFn:function(){
+                    this.classData['text-danger'] = !this.classData['text-danger'];
+                }
+            }
+        })
+
+        
+
+        // var obj = {a:1,b:2,c:fn()}  //对象声明时，值可以为一个表达式!
+        // function fn(){
+        //     console.log(obj)
+        //     return 3+6
+        // }
+        // console.log(obj)
+    </script>
+</body>
+</html>

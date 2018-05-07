@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue Style 绑定</title>
+    <style>
+
+
+    </style>
+</head>
+<body>
+    <div id="app" v-bind:style="{display:['-webkit-box', '-ms-flexbox', 'flex']}">
+        <p id="box">原始dom示例</p>
+            
+        <!-- <div v-bind:style="{color:msgColor,fontSize:msgSize+'px'}"> -->
+        <!-- <div v-bind:style="styleObj"> -->
+        <div v-bind:style="[styleObj,baseStyle]">    
+            我很红吗haha
+        </div>
+
+        <button style="font:bold 20px '宋体';color:red;" v-on:click="btnFn">红红</button>
+        <button v-on:click="redFn">大大</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msgColor:'green',
+                msgSize:'30',
+                styleObj:{
+                    fontSize:'30px',
+                    color:'blue'
+                },
+                baseStyle:{
+                    fontWeight:'bold',
+                    fontVariant:'small-caps'
+                }
+            },
+            methods:{
+                btnFn:function(){
+                    console.log('红红');
+                    // this.msgColor = 'red'
+                    this.styleObj.color = 'red';
+                },
+                redFn:function(){
+                    this.styleObj.fontSize = '50px';
+                }
+            }
+        })
+        document.getElementById('box').style.color = 'yellow';
+        document.getElementById('box').style.fontSize = '40px';
+        document.getElementById('box').style.height = '40px';
+        
+   
+    </script>
+</body>
+</html>

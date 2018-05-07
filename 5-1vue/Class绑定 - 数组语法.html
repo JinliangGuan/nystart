@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Class绑定_数组语法</title>
+    <style>
+
+        .active{
+            color:red;
+        }
+        .text-danger{
+            font-style:italic;
+            font-variant:small-caps;
+            font-weight:bold;
+        }
+        .big{
+            font-size:30px;
+        }
+        .bgColor{
+            display: inline-block;
+            background:#ccc;
+        }
+        .blue{
+            color:blue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="big" v-bind:class="[{active:isActive,aaa:isActive,bbb:isActive},obj,error,'text',ArrClass]">
+            我很红吗haha
+        </div>
+        <button v-on:click="btnFn">错错错</button>
+        <button v-on:click="redFn">red/Active</button>
+        <my-component class="boo bgColor" v-bind:class="{big:isActive,'text-denger':error}"></my-component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        Vue.component('my-component',{
+            template:'<p class="foo blue">我是自定义组件</p>'
+        })
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                active:'active',
+                isActive:true,
+                error:'text-danger',
+                obj:{
+                    aa:true,
+                    bb:false,
+                    cc:true
+                },
+                ArrClass:['arrA', 'arrB'] //直接帮数组不行,用[arrClass]指向这个数组可以
+            },
+            methods:{
+                btnFn:function(){
+                    console.log('错没错');
+                    this.isActive = !this.isActive;
+                },
+                redFn:function(){
+                    this.classData['text-danger'] = !this.classData['text-danger'];
+                }
+            }
+        })
+        
+
+    </script>
+</body>
+</html>
