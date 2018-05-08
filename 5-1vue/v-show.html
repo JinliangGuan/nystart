@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue v-show</title>
+    <style>
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <!-- <template v-show="ok"> 不支持--> 
+            <p v-show="ok">你能看见我吗?</p>
+            <p v-show="ok">你能看见我吗?</p>
+            <p v-show="ok">你能看见我吗?</p>
+        <!-- </template> -->
+        <!-- <p v-else>你去哪儿了</p>  不支持v-else  -->
+
+        <button v-on:click="changeFn">{{ok?btnOut:btnIn}}</button>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+       var vm = new Vue({
+           el:'#app',
+           data:{
+               ok:false,
+               btnIn:'出来',
+               btnOut:'回去'
+           },
+           methods:{
+               changeFn:function(){
+                   console.log(this.ok)
+                   this.ok = !this.ok;
+               }
+           }
+       })
+        
+   
+    </script>
+</body>
+</html>

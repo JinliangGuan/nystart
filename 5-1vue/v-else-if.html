@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue v-else-if</title>
+    <style>
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <p v-if="ok == 'A'">床前明月光</p>
+        <p v-else-if="ok == 'B'">疑是地上霜</p>
+        <p v-else-if="ok == 'C'">举头望明月</p>
+        <p v-else-if="ok == 'D'">低头思故乡</p>
+        <p v-else>没有了</p>
+        <button v-on:click="changeFn">下一句</button>
+    </div>
+
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+       var vm = new Vue({
+           el:'#app',
+           data:{
+               okIdx:0,
+               okArr:['A','B','C','D']
+           },
+           computed:{
+               ok:function(){
+                   return this.okArr[this.okIdx];
+               }
+           },
+           methods:{
+               changeFn:function(){
+                    var num = this.okIdx;
+                    num ++;
+                    // if(num > 3){
+                    //     num = 0
+                    // }
+                    this.okIdx = num;
+               }
+           }
+       })
+        
+   
+    </script>
+</body>
+</html>
