@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue v-for</title>
+    <style>
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+            <ul>
+                <li v-for="item in items">
+                        {{ item.id + ':' + item.message }}
+                </li>
+            </ul>
+            <ul>
+                <li v-for="item in filterItems">
+                        {{ item.id + ':' + item.message }}
+                </li>
+            </ul>  
+            <ul>
+                <li v-for="item in filterFn(items)">
+                        {{ item.id + ':' + item.message }}
+                </li>
+            </ul>           
+            <ul>
+                <li v-for="(val,key,idx) in person">
+                    {{ idx+1+'.'+ key +' : ' + val }}
+                </li>
+            </ul>
+
+            <p v-for="n in 5">{{n}}</p>
+            <input type="button" value="push" v-on:click="pushFn">
+            <input type="button" value="pop" v-on:click="popFn">
+            <input type="button" value="unshift" v-on:click="unshiftFn">
+            <input type="button" value="shift" v-on:click="shiftFn">
+            <br />
+            <input type="button" value="addObj" v-on:click="addObj">
+    </div>
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+       var vm = new Vue({
+           el:'#app',
+           data:{
+               items:[
+                   {message:'Foo',id:0},
+                   {message:'bar',id:1},
+                   {message:'baz',id:2},
+                   {message:'boo',id:3}
+               ],
+               person:{
+                name:'zta',
+                age:'27',
+                birthday:'10月28',
+                stature:'168cm',
+                constellation:'天蝎座'
+               }
+           },
+           computed:{
+                filterItems:function(){
+                   return this.items.filter(function(e){
+                       return e.id%2 === 0;
+                   });
+                }
+           },
+           methods:{
+                pushFn:function(){
+                    console.log(this.items.push({message:'add',id:4}))
+                    
+                },
+                popFn:function(){
+                   console.log(this.items.pop())
+                },
+                unshiftFn:function(){
+                   console.log(this.items.unshift({message:'xyz',id:4}))
+                },
+                shiftFn:function(){
+                   console.log(this.items.shift())
+                },
+                addObj:function(){
+                    // vm.$set(vm.person,'weight','48kg');
+                    vm.person = Object.assign({},vm.person, {
+                        weight:'48kg',
+                        hobby:'reading',
+                        favouriteColor:'red'
+                    })
+                },
+                filterFn:function(items){
+                    return items.filter(function(e){
+                        return e.id%2 === 1;
+                    })
+                }
+           }
+       })
+        
+   
+    </script>
+</body>
+</html>
