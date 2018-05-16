@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单输入绑定</title>
+    <style>
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input v-model="name" value="值?将被忽略" placeholder="请输入姓名"> 
+        <p>您输入的名字是：{{ name }}</p>
+        <span>Multiline message is:</span>
+        <p style="white-space:pre-line;">{{msg}}</p>
+        <textarea id="kankan" value="多行文本输入框是否有value">我倒要看看</textarea>
+        <textarea v-model="msg" placeholder="请输入简介">此处文字也被忽略</textarea>
+        <br />
+        <input type="checkbox" id="ckBox" value="ck01" v-model="isChecked"><label for="ckBok">{{isChecked}}</label>
+        <div>
+            <label for="jack">Jack</label><input type="checkbox" id="jack" value="Jack" v-model="ckNames">&nbsp;&nbsp;
+            <label for="john">Jone</label><input type="checkbox" id="john" value="John" v-model="ckNames">&nbsp;&nbsp;
+            <label for="mike">Mike</label><input type="checkbox" id="mike" value="Mike" v-model="ckNames">
+            <span>Checked names: {{ ckNames }}</span>
+        </div>
+        <div>
+            <input type="radio" id="one" value="One" v-model="picked">
+            <label for="one">One</label>
+            <br />
+            <input type="radio" id="two" value="Two" v-model="picked">
+            <label for="two">Two</label>
+            <br />
+            <input type="radio" id="three" value="Three" v-model="picked">
+            <label for="three">Three</label>
+            <br />
+            <span>Picked: {{picked}}</span>    
+        </div>
+        <div>
+            <select multiple style="width:50px" v-model="selected">
+                <option v-for="(opt,index) in options" v-bind:value="opt.value">{{ index+1 +'.'+ opt.text }}</option>
+            </select>
+            <span>Selected: {{ selected }}</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                name:'',
+                msg:'',
+                isChecked:false,
+                ckNames:['John'],
+                picked:'One',
+                selected:[],
+                options:[
+                    {value:'a',text:'A'},
+                    {value:'b',text:'B'},
+                    {value:'c',text:'C'},
+                    {value:'d',text:'D'}
+                ]
+            },
+            methods:{
+                testFn:function(ev){
+                    console.log(ev,123)
+                }
+            },
+            watch:{
+                ckNames:function(){
+                    console.log(this.ckNames)
+                }
+            }
+        })
+        
+        //回顾select知识
+        // var sel = document.getElementById('sel');
+        // console.log(sel.selectedIndex);
+        // console.dir(sel.options[sel.selectedIndex].value);
+        // var kan = document.getElementById('kankan');
+        // console.log(kan.innerHTML='新文本')
+        
+
+
+    </script>
+</body>
+</html>

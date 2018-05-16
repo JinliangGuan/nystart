@@ -16,7 +16,7 @@
         <button v-on:click="say('hi!',$event)">say hi</button>
         <button v-on:mousedown.right.prevent="say('bye bye!',$event)">右键:say bye</button>
         <p>The button above has been clicked <b :style="{color:numColor,fontSize:size+'px'}">{{ counter }} </b>times.</p>
-        <input type="text" v-on:keyup="testFn">
+        <input type="text" v-on:keyup.left.right="testFn">
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>

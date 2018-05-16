@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单输入绑定-值绑定和修饰符</title>
+    <style>
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input 
+            type="checkbox" 
+            id="ckBox" 
+            true-value="yes" 
+            false-value="no" 
+            v-model="toggle" 
+        ><label for="ckBok">{{ toggle }}</label>
+        <input 
+            type="checkbox" 
+            id="dogBox" 
+            :true-value="yes" 
+            :false-value="no" 
+            v-model="dogBox" 
+        ><label for="ckBok">{{ dogBox }}</label>
+        <div>
+            <label for="jack">Jack</label><input type="checkbox" id="jack" :value="Jack" v-model="ckNames">&nbsp;&nbsp;
+            <label for="john">Jone</label><input type="checkbox" id="john" :value="John" v-model="ckNames">&nbsp;&nbsp;
+            <label for="mike">Mike</label><input type="checkbox" id="mike" :value="Mike" v-model="ckNames">
+            <span>Checked names: {{ ckNames }}</span>
+        </div>
+        <div>
+            <input type="radio" id="one" :value="One" v-model="picked">
+            <label for="one">One</label>
+            <br />
+            <input type="radio" id="two" :value="Two" v-model="picked">
+            <label for="two">Two</label>
+            <br />
+            <input type="radio" id="three" :value="Three" v-model="picked">
+            <label for="three">Three</label>
+            <br />
+            <span>Picked: {{picked}}</span>    
+        </div>
+        <div>
+        <select v-model="selected">
+            <option v-bind:value="{ number: 123 }">123</option>
+            <option v-bind:value="{ number: 456 }">456</option>
+            <option v-bind:value="{ number: 789 }">789</option> 
+        </select>
+            <span>Selected: {{ selected.number }}</span>
+        </div>
+        
+
+        <p>-----------修饰符-----------</p>
+        <input v-model.lazy="name" value="值?将被忽略" placeholder="请输入姓名"> 
+        <p>您输入的名字是：{{ name }}</p>
+        <span>Multiline message is:</span>
+        <p style="white-space:pre-line;">{{msg}}</p>
+        <!-- <textarea id="kankan" value="多行文本输入框是否有value">我倒要看看</textarea> -->
+        <textarea v-model="msg" placeholder="请输入简介">此处文字也被忽略</textarea>
+        <p>改变：{{ Date.now() }}</p>
+        <br />
+        <input v-model.number="age" >
+        <p>年龄是：{{ age }}</p>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                dogBox:'',
+                yes:'是狗',
+                no:'不是狗',
+                toggle:'',
+                ckNames:['约翰'],
+                Jack:'杰克',
+                John:'约翰',
+                Mike:'迈克',
+                picked:'11111',
+                One:'11111',
+                Two:'22222',
+                Three:'33333',
+                selected:'',
+                options:[
+                    {value:'a',text:'A'},
+                    {value:'b',text:'B'},
+                    {value:'c',text:'C'},
+                    {value:'d',text:'D'}
+                ],
+                name:'',
+                msg:'',
+                age:''
+            },
+            methods:{
+                testFn:function(ev){
+                    console.log(ev,123)
+                }
+            },
+            watch:{
+                ckNames:function(){
+                    console.log(this.ckNames)
+                },
+                age:function(){
+                    console.log(this.age)
+                }
+            }
+        })
+        
+
+    </script>
+</body>
+</html>
