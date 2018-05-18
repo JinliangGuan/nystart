@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-组件</title>
+</head>
+<body>
+    <div id="app">
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <br>
+        <div v-bind:style="{'font-size':postFontSize+'em'}">
+            <blog-post 
+                v-for="post in posts" 
+                v-bind:title="post.title" 
+                v-bind:content="post.content"
+                v-bind:key="post.id"
+                v-on:big-text="fontFn"
+            ></blog-post>
+        </div>
+        <custom-input v-model="searchText"></custom-input>
+        <cha-cao>寻找学习方法,叮叮咚咚叮咚咚</cha-cao>
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('button-counter',{
+            data:function(){
+                return {
+                    count:0,
+                }
+            },
+            template:'\
+                <button v-on:click="count++">你单击了{{ count }}次</button>\
+            '
+        })
+        Vue.component('blog-post',{
+            props:['title','content'],
+            template:'<div class="block-post">\
+                <h3>{{ title }}</h3>\
+                <button v-on:click="$emit(\'big-text\',0.5)">字号+</button>\
+                <p v-html="content"></p>\
+            </div>'
+        })
+        Vue.component('custom-input',{
+            props:['value'],
+            template:`
+                <input 
+                    v-bind:value="value" 
+                    v-on:input="$emit('input',$event.target.value)"
+                >    
+            `
+        })
+        Vue.component('cha-cao',{
+            props:[],
+            template:`
+                <div class="demo-cha-cao">
+                    <strong>Error!</strong>
+                    <slot></slot>
+                </div>
+            `
+        })
+
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                posts: [
+                    { id: 1, title: 'My journey with Vue',content:'我有一只小毛驴' },
+                    { id: 2, title: 'Blogging with Vue',content:'我从来也不骑' },
+                    { id: 3, title: 'Why Vue is so fun',content:'有一天我骑它去赶集' },
+                ],
+                postFontSize:1,
+                searchText:''
+            },
+            methods:{
+                fontFn:function(ev_size){
+                    this.postFontSize += ev_size;
+                }
+            },
+            watch:{
+                searchText:function(n,o){
+                    console.log(n)
+                }
+            }
+            
+        })
+
+
+    </script>
+</body>
+</html>
