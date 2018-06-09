@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-作用域插槽2</title>
+</head>
+<body>
+    <div id="app">
+        <todo-list v-bind:todos="todos">
+            <template slot-scope="slotProps">
+                {{ slotProps }}                
+                <!-- {{ slopProps.todo.text }}<span v-if="slopProps.todo.isComplete">√</span> -->
+            </template>
+            <!-- <p slot="names" slot-scope="slotP">{{ slotP }}</p> -->
+        </todo-list>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>    
+    <script>
+        Vue.component('todo-list', {
+            template: `
+                <ul>
+                    <li 
+                        v-for="todo in todos"
+                        v-bind:key="todo.id"
+                    >
+                        <slot msg="乒乒乓乓" v-bind:todo="todo">
+                            {{ todo.text }}
+                        </slot>
+                    </li>
+                </ul>
+            `,
+            props:['todos']
+        });
+        new Vue({
+            el: '#app',
+            data: {
+                todos: [
+                    {id: 1, text: '张三', isComplete: true},
+                    {id: 2, text: '李四', isComplete: true},
+                    {id: 3, text: '王五', isComplete: false},
+                    {id: 4, text: '张龙', isComplete: true},
+                    {id: 5, text: '赵虎', isComplete: false}
+                ]
+            }
+        });
+    </script>
+</body>
+
+
+    
+
+</html>

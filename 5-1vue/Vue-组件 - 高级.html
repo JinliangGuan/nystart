@@ -8,32 +8,46 @@
 </head>
 <body>
     <div id="app">
-        <cha-cao v-show="isShow">{{ txt }}</cha-cao>
-        <cha-cao v-show="noShow">{{ msg }}</cha-cao>
+        <shi-layout>
+            <h3 slot="shi-tit">
+                {{ tit }}
+            </h3>
+            <ul>
+                <li v-for="item in con">{{ item }}</li>      
+            </ul>
+            <span slot="shi-author">
+                {{ author }}
+            </span>
+        </shi-layout>
     </div>
 
     
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
   
-        Vue.component('cha-cao',{
+        Vue.component('shi-layout',{
             props:[],
             template:`
-                <div class="demo-cha-cao">
-                    <strong>诗句：</strong>
-                    <slot></slot>
+                <div class="shiju">
+                    <header>
+                        <slot name="shi-tit">诗名</slot>
+                    </header>
+                    <slot><strong style="color:red;">诗句加载错误</strong></slot>
+                    <footer>
+                        <span>作者:</span>
+                        <slot name="shi-author">作者不详</slot>
+                    </footer>
                 </div>
             `
         })
 
-
         var vm = new Vue({
             el:'#app',
             data:{
-                txt:'秦时明月汉时关，万里长征人未还。',
-                msg:'但使龙城飞将在，不教胡马度阴山。',
-                isShow:true,
-                noShow:true
+                tit:'春晓',
+                con:['春眠不觉晓，','处处闻啼鸟。','夜来风雨声，','花落知多少。'],
+                author:'孟浩然'
+
             }
         })
 
