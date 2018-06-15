@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-循环引用</title>
+    <style>
+        .tree-root{
+           font-weight: bolder;
+           font-size:1.2rem;
+        }
+        .tree-root ul{
+            font-weight: normal;
+            font-size:1rem;
+        }
+        .dingke{
+            color:skyblue;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+         <tree-folder :folder="folderObj" class="tree-root"/>   
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('tree-folder',{
+            data:function(){
+                return {
+
+                }
+            },
+            props:['folder'],
+            template:'\
+                <div>\
+                    <span>{{ folder.name }}</span>\
+                    <tree-folder-contents :children="folder.children" />\
+                </div>\
+                ' ,
+                   
+        })
+        Vue.component('tree-folder-contents',{
+            props:['children'],
+            template:'\
+                <ul>\
+                    <li v-for="child in children">\
+                        <tree-folder v-if="child.children" :folder="child" />\
+                        <span v-else class="dingke"> {{ child.name }} </span>\
+                    </li>\
+                </ul>\
+                ',
+        })
+       
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                folderObj:{
+                    name:'处理边界情况',
+                    children:[
+                        {
+                            name:'访问元素&组件',
+                            children:[
+                                {
+                                    name:'访问根实例',
+                                },
+                                {
+                                    name:'访问父级组件实例',
+                                },                                
+                                {
+                                    name:'访问子组件或子元素',
+                                },
+                                {
+                                    name:'依赖注入',
+                                }                                
+                            ]
+                        },
+                        {
+                            name:'程序化的事件监听器',
+                        },
+                        {
+                            name:'循环引用',
+                            children:[
+                                {
+                                    name:'递归组件',
+                                },
+                                {
+                                    name:'组件之间的循环引用',  
+                                }                                
+                            ]
+                        },                        
+                        {
+                            name:'模板定义的替代品',
+                            children:[
+                                {
+                                    name:'内联模板', 
+                                },
+                                {
+                                    name:'X-Templates',
+                                }                                
+                            ]
+                        },                         
+                        {
+                            name:'控制更新',
+                            children:[
+                                {
+                                    name:'强制更新',
+                                },
+                                {
+                                    name:'通过v-once创建低开销的静态组件',
+                                }                                
+                            ]
+                        }, 
+                    ]
+                }
+            },
+        })
+
+
+    </script>
+</body>
+</html>
