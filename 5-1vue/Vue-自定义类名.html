@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-自定义类名</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.1">
+    <style>
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="show=!show">
+            toggle
+        </button> 
+        <transition 
+            name="custom-classes-transition"
+            enter-active-class="animated tada"
+            leave-active-class="animated bounceOutRight"
+        >
+            <h1 v-if="show">HELLO Animate,Cool!</h1>
+        </transition>  
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                show:true
+            }
+        })
+
+
+    </script>
+</body>
+</html>

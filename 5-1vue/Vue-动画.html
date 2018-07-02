@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-动画</title>
+    <style>
+        /* h1 {
+            font-size:5rem;
+            color:red;
+        } */
+        .bounce-enter-active {
+            animation: bounce-in 2s;
+            transition: all 1s;
+        }
+        .bounce-leave-active {
+            animation: bounce-in  2s reverse;
+            transition: all 1s;
+        }
+        .bounce-enter,.bounce-leave-to{
+            opacity: 0;
+            color:red;
+        }
+
+        @keyframes bounce-in {
+            0% {
+                transform: scale(0)
+            }
+            50% {
+                transform: scale(1.5)
+            }
+            100% {
+                transform: scale(1)
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="show=!show">
+            toggle
+        </button> 
+        <transition name="bounce" type="animation" :duration="{enter: 8000, leave: 5500}">
+            <h1 v-if="show">HELLO Animation</h1>
+        </transition>  
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                show:true
+            }
+        })
+
+
+    </script>
+</body>
+</html>
