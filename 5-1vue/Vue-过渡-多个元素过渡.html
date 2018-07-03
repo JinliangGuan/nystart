@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-过渡-多个元素过渡</title>
+    <style>
+        body{
+            padding:100px;
+        }
+        #app button{
+            position: absolute;
+            width:60px;
+
+        }
+        .se-enter-active{
+            transition:all 0.5s;
+        }
+        .se-leave-active{
+            transition:all 1s;
+        }
+        .se-enter,.se-leave-to{
+            opacity:0;
+        }
+        .se-enter{
+            transform: translateX(100px);
+        }
+        .se-leave-to{
+            transform: translateX(-100px);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="isEditing = !isEditing">
+            toggle
+        </button><br />
+        <transition name="se" mode="in-out">
+            <!-- <button v-if="isEditing">
+                Save
+            </button>
+            <button v-else>
+                Edit
+            </button> -->
+            <button v-bind:key="isEditing" v-on:click="isEditing = !isEditing">
+                {{ isEditing?'Save':'Edit' }}
+            </button>
+
+        </transition>
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                isEditing:true
+            }
+        })
+
+
+    </script>
+</body>
+</html>

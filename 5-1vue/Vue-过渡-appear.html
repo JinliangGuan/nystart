@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-过渡appear</title>
+    <style>
+        /* h1 {
+            font-size:5rem;
+            color:red;
+        } */
+        .fade-enter-active,.fade-leave-active {
+            transition: all 1.5s;
+        }
+
+        .fade-appear-active{
+            transition: all 5s;
+        }
+        .fade-appear{
+            transform:translateX(100px);
+            color:yellow;
+        }
+        .fade-appear-to{
+            transform:translateX(0px);
+            color:red;
+        }
+
+
+
+        .fade-enter {
+            opacity:0;
+            transform: translateX(50px);
+            /* font-size:0.5rem; */
+            color:green; 
+        }
+        .fade-enter-to {
+            opacity:100;
+            /* font-size:10rem; */
+            color:greenyellow;
+        }
+        .fade-leave {
+            opacity:100;
+            color:blue;
+            /* font-size:10rem; */
+        }
+        .fade-leave-to{
+            opacity:0;
+            transform: translateX(50px);
+            /* font-size:0.5rem; */
+            color:orange;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="show=!show">
+            toggle
+        </button> 
+        <!-- 貌似必须得自定义appear类名 -->
+        <transition 
+            appear 
+            appear-class="fade-appear"
+            appear-active-class="fade-appear-active"
+            appear-to-class="fade-appear-to"
+            name="fade"
+        >
+            <h1 v-if="show">HELLO</h1>
+        </transition>  
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                show:true
+            }
+        })
+
+
+    </script>
+</body>
+</html>
