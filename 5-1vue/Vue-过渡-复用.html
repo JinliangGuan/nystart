@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-过渡的复用</title>
+    <style>
+        .txt-tsn-enter-active,.txt-tsn-leave-active{
+            transition: all 1s;
+        }
+        .txt-tsn-enter,.txt-tsn-leave-to{
+            opacity: 0;
+            transform:translateX(30px);
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="show=!show">
+            toggle
+        </button> 
+        <button v-on:click="tog=!tog">
+            切换
+        </button> 
+        <txt-transition>
+            <h1 v-if="show">HELLO</h1>
+            <p v-else>Bye</p>
+        </txt-transition>  
+        <txt-transition>
+            <h2 v-if="show">World</h2>
+            <p v-else>Bye</p>
+        </txt-transition> 
+        <txt-transition>
+            <p v-if="tog" key="0">A复用了，过渡</p>
+            <p v-else key="1">B我来啦</p>
+        </txt-transition> 
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        Vue.component('txt-transition',{
+            template:'\
+                <transition\
+                    name="txt-tsn"\
+                    mode="in-out"\
+                >\
+                    <slot></slot>\
+                </transition>\
+            ',
+        })        
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                show:true,
+                tog:false
+            }
+        })
+
+
+
+    </script>
+</body>
+</html>
