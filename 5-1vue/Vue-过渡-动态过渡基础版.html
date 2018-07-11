@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-动态过渡基础版</title>
+    <style>
+        .tsn-a-enter-active,.tsn-a-leave-active{
+            transition: all 1s;
+        }
+        .tsn-a-enter,.tsn-a-leave-to{
+            opacity: 0;
+            transform:translateX(30px);
+        }
+
+        .tsn-b-enter-active,.tsn-b-leave-active{
+            transition: all 2s;
+        }
+        .tsn-b-enter,.tsn-b-leave-to{
+            opacity: 0;
+            color:aqua;
+            transform:translateX(30px) translateY(30px);
+        }
+
+        .tsn-c-enter-active,.tsn-c-leave-active{
+            transition: all 1s;
+        }
+        .tsn-c-enter,.tsn-c-leave-to{
+            opacity: 0;
+            color:green;
+            transform:translateY(30px);
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="show=!show">
+            toggle
+        </button> 
+
+        <p>
+            <button v-on:click="nextTsn">
+                切换过渡效果
+            </button> 
+            当前过渡效果为: <strong style="color:blueviolet">{{ actTsn.opt }}</strong>
+        </p>
+        <transition 
+            v-bind:name="actTsn.tsnName"
+            v-bind:mode="actTsn.mode"   
+        >
+            <h1 v-if="show">HELLO</h1>
+            <p v-else>Bye</p>
+        </transition>  
+        <transition 
+            v-bind:name="actTsn.tsnName"
+            v-bind:mode="actTsn.mode" 
+        >
+            <h2 v-if="show">World</h2>
+            <p v-else>Bye</p>
+        </transition> 
+    </div>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>      
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                show:true,
+                tsnIdx:0,
+                tsnList:[
+                    { opt:'A',tsnName:'tsn-a',mode:'out-in' },
+                    { opt:'B',tsnName:'tsn-b',mode:'out-in' },
+                    { opt:'C',tsnName:'tsn-c',mode:'in-out' }
+                ]
+            },
+            computed:{
+                actTsn:function(){
+                    return this.tsnList[this.tsnIdx];
+                }
+            },
+            methods:{
+                nextTsn:function(){
+                    this.tsnIdx++;
+                    if(this.tsnIdx >= this.tsnList.length){
+                        console.log('over');
+                        this.tsnIdx = 0;
+                    }
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+</html>
