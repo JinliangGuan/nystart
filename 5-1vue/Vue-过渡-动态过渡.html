@@ -12,11 +12,24 @@
     </style>
 </head>
 <body>
-    <div id="app">
- 
-    </div>
+        <div id="app">
+            Fade In: <input type="range" v-model="fadeInDuration" min="0" v-bind:max="maxFadeDuration">
+            Fade Out: <input type="range" v-model="fadeOutDuration" min="0" v-bind:max="maxFadeDuration">
+        
+            <transition
+                v-bind:css="false"
+                v-on:before-enter="beforeEnter"
+                v-on:enter="enter"
+                v-on:leave="leave"
+            >
+                <h1 v-if="show">hello!</h1>
+            </transition>
+        
+            <button v-if="stop" v-on:click="show=false; stop=false">Start animating</button>
+            <button v-else v-on:click="stop=true">Stop it!</button>
+        </div>
 
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script>
     
@@ -24,7 +37,47 @@
             el:'#app',
             data:{
                 show:true,
-                tog:false
+                fadeInDuration:1000,
+                fadeOutDuration:1000,
+                maxFadeDuration:1500,
+                stop:true
+            },
+            mounted:function(){
+                this.show = false; //让初次加载也走一遍过渡
+            },
+            methods:{
+                beforeEnter:function(el){
+                    console.log('beforeEnter');
+                    el.style.opacity = 0;
+                },
+                enter:function(el,done){
+                    var vm = this;
+                    // console.log(this.fadeInDuration);
+                    Velocity(el,
+                        { opacity:1 },
+                        { 
+                            duration:this.fadeInDuration,
+                            complete:function(){
+                                done();
+                                if(!vm.stop) vm.show=false;
+                            }
+                        }
+                    )
+                },
+                leave:function(el,done){
+                    var vm = this;
+                    // console.log(this.fadeOutDuration);
+                    Velocity(el,
+                        { opacity:0 },  
+                        {
+                            duration:this.fadeOutDuration,
+                            complete:function(){
+                                done();
+                                vm.show = true;
+                            }
+                        }
+                    )
+                }
             }
         })
 

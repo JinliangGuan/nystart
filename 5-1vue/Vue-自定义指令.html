@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-自定义指令</title>
+    <style>
+
+    </style>
+</head>
+<body>
+        <div id="app">
+            <button v-on:click="msg='bye bye'">Bye</button>
+            <!-- <input type="text" v-model="msg" v-focus:foo.a.b.c="{msg:'接收对象',txt:'字面量的'}"><br> -->
+            <input type="text" v-model="msg" v-focus:foo.a.b.c="msg"><br>
+            <input type="text" v-color="elColor" v-model="elColor">
+        </div>
+
+
+       
+   
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+
+    <script>
+        // Vue.directive('focus',{
+        //     inserted:function(el){
+        //         el.focus();
+        //     }
+        // })
+     
+
+
+    //    Vue.directive('color',function(el,binding){
+    //        el.style.backgroundColor = binding.value;
+           
+    //    }) 
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'hello',
+                elColor:'',
+            },
+            directives:{
+                focus:{
+                    inserted:function(el,binding){
+                        el.focus();
+                        console.log(binding.value,binding.expression,binding.arg,Object.keys(binding.modifiers).join(','))
+                    },
+                    update(el,binding) {
+                        console.log(binding.value,binding.oldValue,binding.expression);
+                    },
+                },
+                color:function(el,binding){
+                    console.log('执行简写')
+                    el.style.backgroundColor = binding.value;
+                }
+            }
+        })
+
+
+
+    </script>
+</body>
+</html>

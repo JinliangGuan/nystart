@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-状态过渡-把过渡放组件里</title>
+    <style>
+
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/tween.js@16.3.4"></script>
+
+    <div id="example-8">
+      <input v-model.number="firstNumber" type="number" step="20"> +
+      <input v-model.number="secondNumber" type="number" step="20"> =
+      {{ result }}
+      <p>
+        <animated-integer v-bind:value="firstNumber"></animated-integer> +
+        <animated-integer v-bind:value="secondNumber"></animated-integer> =
+        <animated-integer v-bind:value="result"></animated-integer>
+      </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+
+    <script>
+Vue.component('animated-integer', {
+  template: '<span>{{ tweeningValue }}</span>',
+  props: {
+    value: {
+      type: Number,
+      required: true
+    }
+  },
+  data: function () {
+    return {
+      tweeningValue: 0
+    }
+  },
+  watch: {
+    value: function (newValue, oldValue) {
+        function animate(){
+            if(TWEEN.update()){
+                requestAnimationFrame(animate)
+            }
+        }
+        new TWEEN.Tween(this.tweeningValue)
+            .to(this.value,500)
+            .start();
+        animate();
+    }
+  },
+  mounted: function () {
+    // this.tween(this.value)
+  },
+  methods: {
+    tween: function (startValue, endValue) {
+      var vm = this
+      function animate () {
+        if (TWEEN.update()) {
+          requestAnimationFrame(animate)
+        }
+      }
+
+      new TWEEN.Tween({ tweeningValue: startValue })
+        .to({ tweeningValue: endValue }, 500)
+        .onUpdate(function (object) {
+          vm.tweeningValue = object.tweeningValue.toFixed(0)
+        })
+        .start()
+
+      animate()
+    }
+  }
+})
+
+// 所有的复杂度都已经从 Vue 的主实例中移除！
+new Vue({
+  el: '#example-8',
+  data: {
+    firstNumber: 20,
+    secondNumber: 40
+  },
+  computed: {
+    result: function () {
+      return this.firstNumber + this.secondNumber
+    }
+  }
+})
+
+
+    </script>
+</body>
+</html>
