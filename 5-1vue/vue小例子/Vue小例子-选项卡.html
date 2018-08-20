@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-选项卡</title>
+    <style>
+      .red{
+          color:red;
+          font-weight: bold;
+          background: #ccc;
+      }
+      .back-blue{
+          font-weight: bold;
+          background: skyblue;
+      }
+      .tabBox ul{
+          display: none;
+          width: 200px;
+          border:1px solid #000;
+      }
+      .tabBox ul li{
+          margin-top: 10px;
+          cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+        <div id="app">
+            <button v-for="(item,idx) in tabData" v-bind:class="{ red:idx === index }" v-on:mouseover="tabFn(idx)" v-on:mouseout="outFn">
+                {{ item.title }}
+            </button>
+            <div class="tabBox">
+                <ul v-for="(item,i) in tabData" v-bind:style="{ display:i===index?'block':'' }" v-on:mouseover="tabFn(i)" v-on:mouseout="outFn">
+                    <li v-for="(content,j) in item.list" v-bind:class="{ 'back-blue':j === liLight }" v-on:mouseover="liOver(j)">{{ content.subTit }}</li>
+                </ul>
+            </div>
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    
+    
+    </script>
+    <script>
+
+       var vm = new Vue({
+           el:'#app',
+           data:{
+               index:0,
+               liLight:-1,
+               timer:'',
+               tabData:[
+                   {
+                       title:'新闻',
+                       list:[
+                           {
+                                subTit:'今天有大暴雨'
+                           },{
+                                subTit:'习大大出访美国'
+                           },{
+                                subTit:'伊拉克'
+                           }
+                       ]
+                       
+                   },{
+                       title:'娱乐',
+                       list:[
+                           {
+                               subTit:'胡歌出演电视剧'
+                           },{
+                                subTit:'范冰冰失联'
+                           },{
+                                subTit:'小崔炮轰冯小刚'
+                           },{
+                                subTit:'小沈阳自导自演电影《猛虫过江》'
+                           }
+                       ]
+                       
+                   },{
+                       title:'体育',
+                       list:[
+                           {
+                               subTit:'林丹夺冠'
+                           },{
+                                subTit:'刘翔退赛'
+                           }
+                       ]
+                   }
+               ]
+           },
+           methods:{
+               tabFn:function (idx){
+                   clearInterval(this.timer);
+                   this.index = idx;
+               },
+               autoPlay:function (){
+                    var vm = this;
+                    this.timer = setInterval(function(){
+                        vm.index++;
+                        if(vm.index >= vm.tabData.length){
+                            vm.index = 0;
+                        }
+                    },1000)
+                },
+                outFn:function(){
+                    this.liLight  = -1;
+                    this.autoPlay();
+                },
+                liOver:function(theLi){
+                    this.liLight  = theLi;
+                }
+               
+           },
+           mounted:function (){
+                this.autoPlay();
+           }    
+       })
+
+    </script>
+</body>
+</html>

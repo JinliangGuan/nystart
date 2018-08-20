@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-渲染函数</title>
+    <style>
+
+    </style>
+</head>
+<body>
+        <div id="app">
+            <anchored-heading v-bind:level="1">
+                <a href="#hello-world" name="hello-world">
+                    Hello world!
+                </a>
+            </anchored-heading>
+        </div>
+
+
+       
+   
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    
+    <script  type="text/x-template" id="anchored-heading-template">
+        <div id="wrap">
+            <h1 v-if="level===1">
+                <slot></slot>
+            </h1>
+            <h2 v-if="level===2">
+                <slot></slot>
+            </h2>
+            <h3 v-if="level===3">
+                <slot></slot>
+            </h3>
+            <h4 v-if="level===4">
+                <slot></slot>
+            </h4>
+            <h5 v-if="level===5">
+                <slot></slot>
+            </h5>
+            <h6 v-if="level===6">
+                <slot></slot>
+            </h6>
+        </div>
+        
+    </script>
+    <script>
+        // Vue.component('anchored-heading',{
+        //     template:'#anchored-heading-template',
+        //     props:{
+        //         level:{
+        //             type:Number,
+        //             required:true
+        //         }
+        //     }
+        // })
+
+        Vue.component('anchored-heading',{
+            render:function(createElement){
+                return createElement(
+                    'h'+this.level,
+                    this.$slots.default
+                )
+            },
+            props:{
+                level:{
+                    type:Number,
+                    required:true
+                }
+            }
+        })
+
+        var vm = new Vue({
+            el:'#app',
+        })
+
+
+    </script>
+</body>
+</html>

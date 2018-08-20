@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-留言板</title>
+    <style>
+      .listbox{
+          width: 300px;
+          min-height: 200px;
+          border:1px solid black;
+          padding:20px;
+      }
+      .listbox li{
+          height: 22px;
+          list-style:none;
+          margin-top: 5px; 
+      }
+      .name{
+          float:left;
+      }
+      .say{
+          float:left;
+      }
+      .time{
+          float:right;
+      }
+    </style>
+</head>
+<body>
+        <div id="app">
+            <label>昵称：</label><input v-model="name"><br />
+            <label>留言：</label><input v-model="say" ><br />
+            <button v-on:click="sayFn">发送</button>
+           <ul :class="{listbox:true}">
+               <li v-for="item in list">
+                   <strong class="name">{{ item.name }}:</strong>
+                   <span class="say">{{ item.say }}</span>
+                   <span class="time">{{ item.time }}</span>
+               </li>
+           </ul>
+           <p>{{ obj.xinzhi }}</p>
+        </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    
+    
+    </script>
+    <script>
+
+       var vm = new Vue({
+           el:'#app',
+           data:{
+               name:'',
+               say:'',
+               list:[
+                   {
+                        name:'管',
+                        say:'今天天气不错',
+                        time:'18:49'
+                   },{
+                        name:'原',
+                        say:'挺风和日丽的',
+                        time:'18:50'
+                   }
+               ],
+               obj:{
+
+               }
+           },
+           methods:{
+                sayFn:function(){
+                    if(this.name){
+                        if(this.say){
+                            var theTime = new Date();
+                            var theHour = theTime.getHours().toString();
+                            if(theHour.length == 1){
+                                theHour = '0'+ theHour;
+                            }
+                            var theMin = theTime.getMinutes().toString();
+                            if(theMin.length == 1){
+                                theMin = '0'+ theMin;
+                            }
+                            console.log(theTime ),
+                            console.log(Date.now())
+                            this.list.push({
+                                name:this.name,
+                                say:this.say,
+                                time: theHour +':'+ theMin
+                            })
+                            this.name = this.say = '';
+                        }else{
+                            alert('请输入留言')
+                        }
+                    }else{
+                        alert('请输入姓名')
+                    }
+                }
+           }
+       })
+       setTimeout(function(){
+            // Vue.set(vm.obj,'xinzhi','我是心智')
+            vm.$set(vm.obj,'xinzhi','我是新值')
+       },2000)
+
+    </script>
+</body>
+</html>

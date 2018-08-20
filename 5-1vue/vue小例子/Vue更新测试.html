@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>vue小例子--商品筛选</title>
+	<style type="text/css">
+
+	</style>
+	<script type="text/javascript">
+		let data = [
+			{
+				title: '品牌',
+				list: ["苹果", "小米", "锤子", "魅族", "华为", "三星", "OPPO", "vivo", "乐视", "360", "中兴", "索尼"]
+			},
+			{
+				title: '尺寸',
+				list: ["3.0英寸以下", "3.0-3.9英寸", "4.0-4.5英寸", "4.6-4.9英寸", "5.0-5.5英寸", "6.0英寸以上"]
+			},
+			{
+				title: '系统',
+				list: ["安卓", "(Android)", "苹果", "(IOS)", "微软", "(WindowsPhone)", "无", "其他"]
+			},
+			{
+				title: '网络',
+				list: ["联通3G", "双卡单4G", "双卡双4G", "联通4G", "电信4G", "移动4G"]
+			}
+		]
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="wrap">
+		<button v-for="(item,idx) in list" v-on:click="addFn(item,idx)">{{ item }}</button>
+		<p>
+			<span v-for="sel in choose">{{ sel }}</span>
+		</p>
+		<button v-on:click="testObj.a.b.c = '能'">测试更改</button>
+		<p>{{testObj.a.b.c}}</p>
+	</div>
+	<script type="text/javascript">
+		// data.forEach(function(e){
+		// 	e.index = -1;
+		// })
+		var vm = new Vue({
+			el:'#wrap',
+			data:{
+				choose:{
+					0:'',
+					1:'',
+					2:'',
+					3:''
+				},
+				list: ["苹果", "小米", "锤子", "魅族"],
+				testObj:{
+					a:{
+						b:{
+							c:'能不能'
+						}
+					}
+				}
+			},
+			computed:{
+				dataList:function(){
+					var newData = JSON.parse(JSON.stringify(data));
+					newData.forEach(e=>{
+						e.index = -1;
+					})
+					return newData;
+				}
+			},
+			methods:{
+				addFn:function(item,idx){	
+					this.choose[idx] = item;
+				},
+				removeFn:function(){
+					
+				}
+			}
+
+		})
+
+
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,
+			ul,
+			li,
+			h2 {
+				margin: 0;
+				padding: 0;
+			}
+			
+			li {
+				list-style: none;
+			}
+			.list>div {
+				margin-bottom: 10px;
+			}
+			.list .show {
+				display: block;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="./css/qq.css" />
+		<script>
+			let data = [
+				{
+					title: '在线好友',
+					list: ["苹果" , "小米" , "华为", "三星"]
+				},
+				{
+					title: '离线好友',
+					list: [ "魅族", "索尼", "vivo",]
+				},
+				{
+					title: '陌生人',
+					list: ["OPPO","中兴",]
+				},
+				{
+					title: '黑名单',
+					list: ["乐视", "360","锤子",]
+				}
+			]
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+	</head>
+
+	<body onselectstart="return false;">
+		<div class="wrap" id="app">
+			<div class="list">
+				<div v-for="(group,idx) in qqData">
+					<h2 
+						v-bind:class="{ active:idx === index }"
+						v-on:click="tabFn(idx)"
+					>
+						<span v-bind:class="{ active:idx === index }"></span>{{ group.title }}
+					</h2>
+					<ul v-bind:class="{show:idx === index}">
+						<li 
+							v-for="(name,liIdx) in group.list"
+							v-on:mouseover="hoverFn(liIdx)"
+							v-on:mouseout="outFn"
+							v-on:click="alertFn(name)"
+							v-bind:class="{ hover: liIdx === hoverIdx}"
+						>{{ name }}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script>
+		var vm = new Vue({
+			el:'#app',
+			data:{
+				qqData:data,
+				index:-1,
+				hoverIdx:-1
+			},
+			watch:{
+				hoverIdx(nVal){
+					// console.log(nVal)
+				}
+			},
+			methods:{
+				tabFn(idx){
+					if(this.index === idx){
+						this.index = -1;
+					}else{
+						this.index = idx;
+					}
+				},
+				hoverFn(liIdx){
+					this.hoverIdx = liIdx;
+				},
+				outFn(){
+					this.hoverIdx = -1;
+				},
+				alertFn(name){
+					alert('你的好友: '+name+' 不想和你说话!')
+				}
+			}
+		})
+
+
+		</script>
+	</body>
+
+</html>

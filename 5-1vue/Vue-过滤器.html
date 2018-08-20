@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue-过滤器</title>
+    <style>
+
+    </style>
+</head>
+<body>
+        <div id="app">
+            <input type="text" v-model="msg">
+            <p>{{ msg | capitalize('ok','hello') }}</p>
+        </div>
+
+
+       
+   
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    
+    
+    </script>
+    <script>
+
+
+        var vm = new Vue({
+            el:'#app',
+            data:{
+                msg:'',
+            },
+            filters:{
+                capitalize:function(value,arg1,arg2){
+                    if(!value) return '';
+                    console.log(arg1,arg2)
+                    value = value.toString();
+                    return value.charAt(0).toUpperCase()+value.slice(1);
+                }
+            }
+        })
+
+
+    </script>
+</body>
+</html>

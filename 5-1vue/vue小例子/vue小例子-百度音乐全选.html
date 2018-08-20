@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>vue小例子-百度音乐全选</title>
+		<style>
+			body,
+			ul,
+			li {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.list-body li:nth-child(even) {
+				background: #fff;
+			}
+			.list-body li:nth-child(odd) {
+				background: #eee;
+			}
+			.list-body li:hover {
+				background: green;
+			}
+			.list-body li.checkedColor {
+				background: green;
+			}
+			.list-body li.sel{
+				background: #9dcff4;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="百度音乐-全选/css/baidu.css" />
+		<script>
+			let data = [
+				{
+					id:Date.now()+Math.random(),
+					name: '周杰伦',
+					singer: '告白气球',
+					checked: true,
+					album: 10
+				},
+				{
+					id:Date.now()+Math.random(),
+					name: '二珂',
+					singer: '告白气球',
+					checked: false,
+					album: 5
+				},
+				{
+					id:Date.now()+Math.random(),
+					name: '陈奕迅',
+					singer: '浮夸',
+					checked: false,
+					album: 10
+				},
+				{
+					id:Date.now()+Math.random(),
+					name: '周杰伦',
+					singer: '稻香',
+					checked: true,
+					album: 8
+				},
+				{
+					id:Date.now()+Math.random(),
+					name: '莫文蔚',
+					singer: '电台情歌',
+					checked: false,
+					album: 2
+				}
+			]
+		</script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	</head>
+
+	<body>
+		<div class="wrap" id="app">
+			<div class="baidu">
+				<ul class="list list-head">
+					<li>
+						<div>
+							<input type="checkbox" v-model="isCheckAll"/>全选
+						</div>
+						<span>歌名</span>
+						<span>歌手</span>
+						<span>专辑</span>
+					</li>
+				</ul>
+				<ul class="list list-body">
+					<li v-for="(item,idx) in musicList" v-bind:class="{ sel:item.checked }">
+						<div>
+							<input type="checkbox" v-model="item.checked">
+						</div>
+						<span>{{ item.name }}</span>
+						<span>{{ item.singer }}</span>
+						<span>{{ item.album }}</span>
+					</li>
+				</ul>
+				<div class="select">
+					<span class="selectAll">
+
+						<span>统计：</span>
+					</span>
+					<div class="others">
+						<span><em></em>选中的歌手有: {{singerCounter}} 位</span>
+						<span><em></em>专辑有 {{ albumCounter }} 张</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			
+
+			new Vue({
+				el: '#app',
+				data: {
+					musicList: data,
+				},
+				computed: {
+					isCheckAll:{
+						get:function(){
+							return this.musicList.every(e => e.checked);
+						},
+						set:function(nVal){
+							console.log(nVal);
+							this.musicList.forEach(e=>{
+								e.checked = nVal;
+							})
+						}
+					},
+					singerCounter:function(){
+						var counterArr = [];
+						this.musicList.forEach(e=>{
+							if(e.checked){
+								counterArr.push(e.name);
+							}
+						});
+						counterArr = this.uniqueFn(counterArr);
+						return counterArr.length;
+					},
+					albumCounter:function(){
+						var filterArr = this.musicList.filter(e=>e.checked);
+						var selSinger = [];		
+						var counter = 0;
+						filterArr.forEach(e=>{
+							if(selSinger.indexOf(e.name) === -1){
+								selSinger.push(e.name);
+								counter += e.album;
+							}
+						})
+						// console.log(counter);
+						return counter;
+					}
+				},
+				methods:{
+					uniqueFn:function(arr){
+						return [...new Set(arr)]
+					}
+				}	
+
+			})
+
+			// ======================================================//
+			// ['soner':'']
+			function fn(option){
+				var json = {};
+				var arr = [];
+				option.forEach((item) => {
+					console.log(json[item.name]);
+					if(!json[item.name]){
+						json[item.name] = true;
+						arr.push(item)
+					}
+				})
+				console.log(arr);
+				return arr;
+			}
+			function oo() { 
+				var arr = [1,2,3,2,1];
+				arr2 = [... new Set(arr)]
+				console.log(arr2) //=>[1,2,3]
+			 }
+
+			var arr1 = [1,9,5,8,4,5,9,6,3];
+			var arr2 = [];
+			for(var i=0;i<arr1.length;i++){
+				if(arr1.indexOf(arr1[i]) == i){
+					arr2.push(arr1[i])
+				}
+			}
+			console.log(arr2)
+
+		</script>
+	</body>
+
+</html>
